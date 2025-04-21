@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Codora - Sign Up</title>
+    <link rel="stylesheet" href="css/authStyle.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-header">
+            <h2>Create Account</h2>
+            <p>Start your coding journey with us</p>
+        </div>
+
+        <form class="auth-form">
+            <div class="form-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" placeholder="Enter your full name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" placeholder="Enter your email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Create a password" required>
+            </div>
+
+            <div class="form-group">
+                <label for="confirm-password">Confirm Password</label>
+                <input type="password" id="confirm-password" placeholder="Confirm your password" required>
+            </div>
+
+            <button type="submit" class="auth-btn">Sign Up</button>
+        </form>
+
+        <div class="auth-footer">
+            <p>Already have an account? <a href="login.html">Log in</a></p>
+        </div>
+
+        <div class="social-auth">
+            <p>or sign up with</p>
+            <div class="social-icons">
+                <a href="#" class="social-icon"><i class="fab fa-google"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-github"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.querySelector('.auth-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            
+            if (password !== confirmPassword) {
+                alert('Passwords do not match!');
+                return;
+            }
+            
+            alert('Account created successfully! (This is a demo)');
+        });
+    </script>
+</body>
+</html>

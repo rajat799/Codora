@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Codora - All Quizzes</title>
+    <link rel="stylesheet" href="CSS/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div id="preloader">
+        <div class="spinner"></div>
+    </div>
+    
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <a href="index.html"> <span class="logo1">Codora.</span></a>
+            </div>
+            <div class="nav-elements">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="#">Tutorials</a></li>
+                    <li><a href="#">Blogs</a></li>
+                    <li><a href="#">Projects</a></li>
+                    <li><a href="#">Community</a></li>
+                    <li><a href="#">Contacts</a></li>
+                </ul>
+            </div>
+            <div class="auth-buttons">
+                <a href="login.html" class="auth-btn login-btn">Log in</a>
+                <a href="signup.html" class="auth-btn signup-btn">Sign Up</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="all-quizzes">
+            <div class="container">
+                <h1 class="page-title">All Quizzes</h1>
+                <div class="quiz-filters">
+                    <div class="search-box">
+                        <input type="text" placeholder="Search quizzes...">
+                        <button><i class="fas fa-search"></i></button>
+                    </div>
+                    <div class="filter-options">
+                        <select>
+                            <option value="all">All Categories</option>
+                            <option value="html">HTML</option>
+                            <option value="css">CSS</option>
+                            <option value="js">JavaScript</option>
+                            <option value="python">Python</option>
+                        </select>
+                        <select>
+                            <option value="all">All Difficulties</option>
+                            <option value="easy">Easy</option>
+                            <option value="medium">Medium</option>
+                            <option value="hard">Hard</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="quiz-grid">
+                    <!-- Quiz cards will be loaded here dynamically -->
+                </div>
+
+                <div class="pagination">
+                    <button class="pagination-btn" disabled><i class="fas fa-chevron-left"></i></button>
+                    <span class="page-numbers">1 of 5</span>
+                    <button class="pagination-btn"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <!-- Your existing footer code -->
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Loader
+        window.addEventListener("load", function() {
+            setTimeout(() => {
+                document.getElementById("preloader").style.display = "none";
+            }, 1000);
+        });
+
+        // Quiz data
+        const quizData = [
+            {
+                title: "HTML Fundamentals",
+                questions: 15,
+                time: "10 mins",
+                difficulty: 2,
+                category: "html",
+                attempts: 1250,
+                rating: 4.5
+            },
+            {
+                title: "CSS Fundamentals",
+                questions: 20,
+                time: "15 mins",
+                difficulty: 3,
+                category: "css",
+                attempts: 980,
+                rating: 4.7
+            },
+            {
+                title: "JavaScript Basics",
+                questions: 25,
+                time: "20 mins",
+                difficulty: 2,
+                category: "js",
+                attempts: 2100,
+                rating: 4.8
+            },
+            {
+                title: "Python Introduction",
+                questions: 30,
+                time: "25 mins",
+                difficulty: 4,
+                category: "css",
+                attempts: 750,
+                rating: 4.6
+            },
+            {
+                title: "C Programming",
+                questions: 18,
+                time: "12 mins",
+                difficulty: 1,
+                category: "python",
+                attempts: 1500,
+                rating: 4.4
+            },
+            {
+                title: "C++ Programming",
+                questions: 22,
+                time: "18 mins",
+                difficulty: 3,
+                category: "js",
+                attempts: 1100,
+                rating: 4.5
+            }
+        ];
+
+        // Render quizzes
+        function renderQuizzes(quizzes) {
+            const quizGrid = document.querySelector('.quiz-grid');
+            quizGrid.innerHTML = '';
+
+            quizzes.forEach(quiz => {
+                const difficultyStars = '★'.repeat(quiz.difficulty) + '☆'.repeat(5 - quiz.difficulty);
+                
+                const quizCard = document.createElement('div');
+                quizCard.className = 'quiz-card';
+                quizCard.innerHTML = `
+                    <div class="quiz-icon ${quiz.category}-icon">
+                        <i class="fab fa-${quiz.category === 'js' ? 'js' : quiz.category}"></i>
+                    </div>
+                    <h3 class="quiz-title">${quiz.title}</h3>
+                    <div class="quiz-stats">
+                        <span><i class="fas fa-question-circle"></i> ${quiz.questions} Questions</span>
+                        <span><i class="fas fa-clock"></i> ${quiz.time}</span>
+                    </div>
+                    <div class="quiz-difficulty">
+                        <span class="difficulty-label">Difficulty:</span>
+                        <div class="stars" title="${quiz.difficulty}/5">${difficultyStars}</div>
+                    </div>
+                    <div class="quiz-meta">
+                        <span><i class="fas fa-users"></i> ${quiz.attempts.toLocaleString()} Attempts</span>
+                        <span><i class="fas fa-star"></i> ${quiz.rating}</span>
+                    </div>
+                    <a href="#" class="quiz-btn">Start Quiz <i class="fas fa-arrow-right"></i></a>
+                `;
+                quizGrid.appendChild(quizCard);
+            });
+        }
+
+        // Initial render
+        renderQuizzes(quizData);
+
+        // Search functionality
+        document.querySelector('.search-box input').addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            const filteredQuizzes = quizData.filter(quiz => 
+            quiz.title.toLowerCase().includes(searchTerm),
+            renderQuizzes(filteredQuizzes));
+        });
+
+        // Filter functionality
+        document.querySelectorAll('.filter-options select').forEach(select => {
+            select.addEventListener('change', () => {
+                const category = document.querySelector('.filter-options select:first-child').value;
+                const difficulty = document.querySelector('.filter-options select:last-child').value;
+                
+                const filteredQuizzes = quizData.filter(quiz => {
+                    return (category === 'all' || quiz.category === category) && 
+                           (difficulty === 'all' || 
+                            (difficulty === 'easy' && quiz.difficulty <= 2) ||
+                            (difficulty === 'medium' && quiz.difficulty > 2 && quiz.difficulty <= 3) ||
+                            (difficulty === 'hard' && quiz.difficulty > 3));
+                });
+                
+                renderQuizzes(filteredQuizzes);
+            });
+        });
+    </script>
+</body>
+</html>
