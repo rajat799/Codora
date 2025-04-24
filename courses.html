@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Codora - Courses</title>
+    <link rel="stylesheet" href="CSS/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div id="preloader">
+        <div class="spinner"></div>
+    </div>
+    
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <a href="index.html"> <span class="logo1">Codora.</span></a>
+            </div>
+
+            <!-- arrow Menu Icon -->
+            <button class="downArrow">
+                <span class="text">menu  <i class="fa-solid fa-chevron-down"></i></span>
+            </button>
+
+            <div class="nav-elements">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="courses.html" class="active">Courses</a></li>
+                    <li><a href="quizzes.html">Quizzes</a></li>
+                    <li><a href="#">Projects</a></li>
+                    <li><a href="#">Community</a></li>
+                    <li><a href="#">Contacts</a></li>
+                </ul>
+            </div>
+
+            <div class="auth-buttons">
+                <a href="login.html" class="auth-btn login-btn">Log in</a>
+                <a href="signup.html" class="auth-btn signup-btn">Sign Up</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="all-courses">
+            <div class="container">
+                <h1 class="page-title">Browse All Courses</h1>
+                
+                <div class="course-filters">
+                    <div class="search-box">
+                        <input type="text" placeholder="Search courses...">
+                        <button><i class="fas fa-search"></i></button>
+                    </div>
+                    <div class="filter-options">
+                        <select>
+                            <option value="all">All Categories</option>
+                            <option value="html">HTML</option>
+                            <option value="css">CSS</option>
+                            <option value="js">JavaScript</option>
+                            <option value="python">Python</option>
+                            <option value="c">C Programming</option>
+                            <option value="cpp">C++</option>
+                        </select>
+                        <select>
+                            <option value="all">All Levels</option>
+                            <option value="beginner">Beginner</option>
+                            <option value="intermediate">Intermediate</option>
+                            <option value="advanced">Advanced</option>
+                        </select>
+                    </div>
+                </div>
+        
+                <div class="course-grid">
+                    <!-- Course Card 1 -->
+                    <div class="course-card">
+                        <img src="images/html_img.png" alt="HTML Course" class="course-thumbnail">
+                        <div class="course-content">
+                            <div class="course-icon html-icon">
+                                <i class="fab fa-html5"></i>
+                            </div>
+                            <h3 class="course-title">HTML Fundamentals</h3>
+                            <div class="course-stats">
+                                <span><i class="fas fa-book-open"></i> 12 Lessons</span>
+                                <span><i class="fas fa-clock"></i> 4 Hours</span>
+                            </div>
+                            <div class="course-level">
+                                <span class="level-label">Level:</span>
+                                <span class="level-value beginner">Beginner</span>
+                            </div>
+                            <a href="#" class="course-btn">Start Learning <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    
+                    <!-- More course cards... -->
+                    <div class="course-card">
+                        <img src="images/css_img.png" alt="HTML Course" class="course-thumbnail">
+                        <div class="course-content">
+                            <div class="course-icon html-icon">
+                                <i class="fab fa-html5"></i>
+                            </div>
+                            <h3 class="course-title">CSS Styles</h3>
+                            <div class="course-stats">
+                                <span><i class="fas fa-book-open"></i> 10 Lessons</span>
+                                <span><i class="fas fa-clock"></i> 8 Hours</span>
+                            </div>
+                            <div class="course-level">
+                                <span class="level-label">Level:</span>
+                                <span class="level-value beginner">Beginner</span>
+                            </div>
+                            <a href="#" class="course-btn">Start Learning <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+
+                    <div class="course-card">
+                        <img src="images/javascript_img.png" alt="HTML Course" class="course-thumbnail">
+                        <div class="course-content">
+                            <div class="course-icon html-icon">
+                                <i class="fab fa-html5"></i>
+                            </div>
+                            <h3 class="course-title">JavaScript Programming</h3>
+                            <div class="course-stats">
+                                <span><i class="fas fa-book-open"></i> 8 Lessons</span>
+                                <span><i class="fas fa-clock"></i> 5 Hours</span>
+                            </div>
+                            <div class="course-level">
+                                <span class="level-label">Level:</span>
+                                <span class="level-value beginner">Intermediate</span>
+                            </div>
+                            <a href="#" class="course-btn">Start Learning <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+
+                    <div class="course-card">
+                        <img src="images/python_img.png" alt="HTML Course" class="course-thumbnail">
+                        <div class="course-content">
+                            <div class="course-icon html-icon">
+                                <i class="fab fa-html5"></i>
+                            </div>
+                            <h3 class="course-title">Python Programming</h3>
+                            <div class="course-stats">
+                                <span><i class="fas fa-book-open"></i> 15 Lessons</span>
+                                <span><i class="fas fa-clock"></i> 8 Hours</span>
+                            </div>
+                            <div class="course-level">
+                                <span class="level-label">Level:</span>
+                                <span class="level-value beginner">Beginner</span>
+                            </div>
+                            <a href="#" class="course-btn">Start Learning <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+
+                    <div class="course-card">
+                        <img src="images/c_img.png" alt="HTML Course" class="course-thumbnail">
+                        <div class="course-content">
+                            <div class="course-icon html-icon">
+                                <i class="fab fa-html5"></i>
+                            </div>
+                            <h3 class="course-title">C Fundamentals</h3>
+                            <div class="course-stats">
+                                <span><i class="fas fa-book-open"></i> 5 Lessons</span>
+                                <span><i class="fas fa-clock"></i> 3 Hours</span>
+                            </div>
+                            <div class="course-level">
+                                <span class="level-label">Level:</span>
+                                <span class="level-value beginner">Beginner</span>
+                            </div>
+                            <a href="#" class="course-btn">Start Learning <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+
+                    <div class="course-card">
+                        <img src="images/cpp_img.png" alt="HTML Course" class="course-thumbnail">
+                        <div class="course-content">
+                            <div class="course-icon html-icon">
+                                <i class="fab fa-html5"></i>
+                            </div>
+                            <h3 class="course-title">CPP and OPP</h3>
+                            <div class="course-stats">
+                                <span><i class="fas fa-book-open"></i> 7 Lessons</span>
+                                <span><i class="fas fa-clock"></i> 5 Hours</span>
+                            </div>
+                            <div class="course-level">
+                                <span class="level-label">Level:</span>
+                                <span class="level-value beginner">Advanced</span>
+                            </div>
+                            <a href="#" class="course-btn">Start Learning <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+        
+                <div class="pagination">
+                    <button class="pagination-btn" disabled><i class="fas fa-chevron-left"></i></button>
+                    <span class="page-numbers">1 of 3</span>
+                    <button class="pagination-btn"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+        </div>
+            
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>Codora</h3>
+                <p>Learn. Practice. Build. Get Rewarded.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+        
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="courses.html">Courses</a></li>
+                    <li><a href="quizzes.html">Quizzes</a></li>
+                    <li><a href="#">Projects</a></li>
+                    <li><a href="#">Community</a></li>
+                </ul>
+            </div>
+        
+            <div class="footer-section">
+                <h3>Courses</h3>
+                <ul>
+                    <li><a href="#">HTML Basics</a></li>
+                    <li><a href="#">CSS Fundamentals</a></li>
+                    <li><a href="#">JavaScript Essentials</a></li>
+                    <li><a href="#">Python for Beginners</a></li>
+                    <li><a href="#">C Programming</a></li>
+                </ul>
+            </div>
+        
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <ul>
+                    <li><i class="fas fa-envelope"></i> BeyondCode@codora.com</li>
+                    <li><i class="fas fa-phone"></i> +91 - 8263075985</li>
+                    <li><i class="fas fa-map-marker-alt"></i> 123 Coding Street, Tech City</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2023 Codora. All Rights Reserved.</p>
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Cookies Policy</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="JS/script.js"></script>
+    <script>
+        // Loader
+        window.addEventListener("load", function() {
+            setTimeout(() => {
+                document.getElementById("preloader").style.display = "none";
+            }, 1000);
+        });
+
+        // Search functionality
+        document.querySelector('.search-box input').addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            const courseCards = document.querySelectorAll('.course-card');
+            
+            courseCards.forEach(card => {
+                const title = card.querySelector('h3').textContent.toLowerCase();
+                if (title.includes(searchTerm)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+
+        // Filter functionality
+        document.querySelectorAll('.filter-options select').forEach(select => {
+            select.addEventListener('change', () => {
+                const category = document.querySelector('.filter-options select:first-child').value;
+                const level = document.querySelector('.filter-options select:last-child').value;
+                const courseCards = document.querySelectorAll('.course-card');
+                
+                courseCards.forEach(card => {
+                    const cardCategory = card.querySelector('.course-icon').alt.toLowerCase();
+                    const cardTitle = card.querySelector('h3').textContent.toLowerCase();
+                    const isCategoryMatch = category === 'all' || cardCategory.includes(category);
+                    const isLevelMatch = level === 'all' || 
+                                        (level === 'beginner' && (cardTitle.includes('basic') || cardTitle.includes('beginner'))) ||
+                                        (level === 'intermediate' && (cardTitle.includes('fundamental') || cardTitle.includes('essential'))) ||
+                                        (level === 'advanced' && (cardTitle.includes('advanced') || cardTitle.includes('expert')));
+                    
+                    if (isCategoryMatch && isLevelMatch) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
