@@ -6,6 +6,191 @@
     <title>Codora - All Quizzes</title>
     <link rel="stylesheet" href="CSS/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Quiz card styles */
+        .quiz-card {
+            background: #1e1e1e;
+            border-radius: 10px;
+            padding: 25px;
+            transition: all 0.3s;
+            border: 1px solid #333;
+        }
+        
+        .quiz-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+        
+        .quiz-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: white;
+        }
+        
+        .html-icon { background: #E44D26; }
+        .css-icon { background: #264DE4; }
+        .js-icon { background: #F0DB4F; color: #323330 !important; }
+        .python-icon { background: #3776AB; }
+        .c-icon { background: #A8B9CC; color: #323330 !important; }
+        .cpp-icon { background: #659AD2; }
+        
+        .quiz-title {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: #ffd700;
+        }
+        
+        .quiz-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+        
+        .quiz-difficulty {
+            margin-bottom: 15px;
+        }
+        
+        .difficulty-label {
+            display: block;
+            margin-bottom: 5px;
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+        
+        .stars {
+            color: #ffd700;
+            font-size: 1rem;
+        }
+        
+        .quiz-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+        
+        .quiz-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin-top: 20px;
+            background: #ffd700;
+            color: #0b0220;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            text-align: center;
+            text-decoration: none;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .quiz-btn:hover {
+            background: #ffc400;
+        }
+        
+        .quiz-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+        
+        .quiz-filters {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .search-box {
+            display: flex;
+            flex: 1;
+            min-width: 250px;
+        }
+        
+        .search-box input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid #333;
+            border-radius: 5px 0 0 5px;
+            background: #1e1e1e;
+            color: white;
+        }
+        
+        .search-box button {
+            padding: 0 20px;
+            background: #ffd700;
+            color: #0b0220;
+            border: none;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+        }
+        
+        .filter-options {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-options select {
+            padding: 12px 15px;
+            border: 1px solid #333;
+            border-radius: 5px;
+            background: #1e1e1e;
+            color: white;
+            min-width: 150px;
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-top: 40px;
+        }
+        
+        .pagination-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 5px;
+            background: #1e1e1e;
+            border: none;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .pagination-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .page-numbers {
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+        
+        .no-results {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 40px;
+            color: #aaa;
+        }
+    </style>
 </head>
 <body>
     <div id="preloader">
@@ -15,21 +200,22 @@
     <header>
         <div class="navbar">
             <div class="logo">
-                <a href="index.html"> <span class="logo1">Codora.</span></a>
+                <a href="index.html"><span class="logo1">Codora.</span></a>
             </div>
+            <button class="downArrow">
+                <span class="text">menu <i class="fa-solid fa-chevron-down"></i></span>
+            </button>
             <div class="nav-elements">
                 <ul>
                     <li><a href="index.html">Home</a></li>
-                    <li><a href="#">Tutorials</a></li>
-                    <li><a href="#">Blogs</a></li>
-                    <li><a href="#">Projects</a></li>
-                    <li><a href="#">Community</a></li>
-                    <li><a href="#">Contacts</a></li>
+                    <li><a href="courses.html">Courses</a></li>
+                    <li><a href="quizzes.html" class="active">Quizzes</a></li>
+                    <li><a href="certificates.html">Certificates</a></li>
+                    <li><a href="contact.html">Contacts</a></li>
                 </ul>
             </div>
-            <div class="auth-buttons">
-                <a href="login.html" class="auth-btn login-btn">Log in</a>
-                <a href="signup.html" class="auth-btn signup-btn">Sign Up</a>
+            <div class="auth-buttons" id="auth-buttons">
+                <!-- Dynamically updated by JavaScript -->
             </div>
         </div>
     </header>
@@ -40,18 +226,21 @@
                 <h1 class="page-title">All Quizzes</h1>
                 <div class="quiz-filters">
                     <div class="search-box">
-                        <input type="text" placeholder="Search quizzes...">
-                        <button><i class="fas fa-search"></i></button>
+                        <input type="text" id="quiz-search" placeholder="Search quizzes...">
+                        <button id="search-btn"><i class="fas fa-search"></i></button>
                     </div>
+
                     <div class="filter-options">
-                        <select>
+                        <select id="category-filter">
                             <option value="all">All Categories</option>
                             <option value="html">HTML</option>
                             <option value="css">CSS</option>
                             <option value="js">JavaScript</option>
                             <option value="python">Python</option>
+                            <option value="c">C Programming</option>
+                            <option value="cpp">C++ & OOP</option>
                         </select>
-                        <select>
+                        <select id="difficulty-filter">
                             <option value="all">All Difficulties</option>
                             <option value="easy">Easy</option>
                             <option value="medium">Medium</option>
@@ -60,88 +249,138 @@
                     </div>
                 </div>
 
-                <div class="quiz-grid">
+                <div class="quiz-grid" id="quiz-grid">
                     <!-- Quiz cards will be loaded here dynamically -->
                 </div>
 
                 <div class="pagination">
-                    <button class="pagination-btn" disabled><i class="fas fa-chevron-left"></i></button>
-                    <span class="page-numbers">1 of 5</span>
-                    <button class="pagination-btn"><i class="fas fa-chevron-right"></i></button>
-                </div>
+                    <button class="pagination-btn" id="prev-page" disabled><i class="fas fa-chevron-left"></i></button>
+                    <span class="page-numbers" id="page-numbers">1 of 1</span>
+                    <button class="pagination-btn" id="next-page"><i class="fas fa-chevron-right"></i></button>
+                </div>  
             </div>
         </section>
     </main>
 
     <footer class="footer">
         <div class="footer-container">
-          <div class="footer-section">
-            <h3>Codora</h3>
-            <p>Learn. Practice. Build. Get Rewarded.</p>
-            <div class="social-links">
-              <a href="#"><i class="fab fa-facebook-f"></i></a>
-              <a href="#"><i class="fab fa-twitter"></i></a>
-              <a href="#"><i class="fab fa-instagram"></i></a>
-              <a href="#"><i class="fab fa-linkedin-in"></i></a>
-              <a href="#"><i class="fab fa-github"></i></a>
+            <div class="footer-section">
+                <h3>Codora</h3>
+                <p>Learn. Practice. Build. Get Rewarded.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#"><i class="fab fa-github"></i></a>
+                </div>
             </div>
-          </div>
-      
-          <div class="footer-section">
-            <h3>Quick Links</h3>
-            <ul>
-              <li><a href="#">Home</a></li>
-              <li><a href="#">Courses</a></li>
-              <li><a href="#">Quizzes</a></li>
-              <li><a href="#">Projects</a></li>
-              <li><a href="#">Community</a></li>
-            </ul>
-          </div>
-      
-          <div class="footer-section">
-            <h3>Courses</h3>
-            <ul>
-              <li><a href="#">HTML Basics</a></li>
-              <li><a href="#">CSS Fundamentals</a></li>
-              <li><a href="#">JavaScript Essentials</a></li>
-              <li><a href="#">Python for Beginners</a></li>
-              <li><a href="#">C Programming</a></li>
-            </ul>
-          </div>
-      
-          <div class="footer-section">
-            <h3>Contact Us</h3>
-            <ul>
-              <li><i class="fas fa-envelope"></i> BeyondCode@codora.com</li>
-              <li><i class="fas fa-phone"></i> +91 - 8263075985</li>
-              <li><i class="fas fa-map-marker-alt"></i> 123 Coding Street, Tech City</li>
-            </ul>
-          </div>
+        
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="courses.html">Courses</a></li>
+                    <li><a href="quizzes.html">Quizzes</a></li>
+                    <li><a href="#">Projects</a></li>
+                    <li><a href="#">Community</a></li>
+                </ul>
+            </div>
+        
+            <div class="footer-section">
+                <h3>Courses</h3>
+                <ul>
+                    <li><a href="course_content.html?course=html">HTML Basics</a></li>
+                    <li><a href="course_content.html?course=css">CSS Fundamentals</a></li>
+                    <li><a href="course_content.html?course=js">JavaScript Essentials</a></li>
+                    <li><a href="course_content.html?course=python">Python for Beginners</a></li>
+                    <li><a href="course_content.html?course=c">C Programming</a></li>
+                    <li><a href="course_content.html?course=cpp">C++ & OOP</a></li>
+                </ul>
+            </div>
+        
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <ul>
+                    <li><i class="fas fa-envelope"></i> BeyondCode@codora.com</li>
+                    <li><i class="fas fa-phone"></i> +91 - 8263075985</li>
+                    <li><i class="fas fa-map-marker-alt"></i> 123 Coding Street, Tech City</li>
+                </ul>
+            </div>
         </div>
-      
+        
         <div class="footer-bottom">
-          <p>&copy; 2023 Codora. All Rights Reserved.</p>
-          <div class="footer-links">
-            <a href="#">Privacy Policy</a>
-            <a href="#">Terms of Service</a>
-            <a href="#">Cookies Policy</a>
-          </div>
+            <p>© 2023 Codora. All Rights Reserved.</p>
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Cookies Policy</a>
+            </div>
         </div>
-      </footer>
+    </footer>
 
-    <script src="script.js"></script>
     <script>
-        // Loader
-        window.addEventListener("load", function() {
-            setTimeout(() => {
-                document.getElementById("preloader").style.display = "none";
-            }, 1000);
-        });
+        // Authentication check
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        const authButtons = document.getElementById('auth-buttons');
 
-        // Quiz data
-        const quizData = [
+        if (!currentUser) {
+            window.location.href = 'login.html';
+        } else {
+            authButtons.innerHTML = `
+                <span style="color: white; margin-right: 10px;">Hello, ${currentUser.name}</span>
+                <button onclick="logout()" class="auth-btn logout-btn">Log Out</button>
+            `;
+        }
+
+        function logout() {
+            localStorage.removeItem('currentUser');
+            window.location.href = 'login.html';
+        }
+
+        // Linked List Implementation for Quizzes
+        class QuizNode {
+            constructor(data) {
+                this.data = data; // { id, title, questions, time, difficulty, category, attempts, rating }
+                this.next = null;
+            }
+        }
+
+        class QuizList {
+            constructor() {
+                this.head = null;
+            }
+
+            addQuiz(data) {
+                const newNode = new QuizNode(data);
+                if (!this.head) {
+                    this.head = newNode;
+                } else {
+                    let current = this.head;
+                    while (current.next) {
+                        current = current.next;
+                    }
+                    current.next = newNode;
+                }
+            }
+
+            toArray() {
+                const quizzes = [];
+                let current = this.head;
+                while (current) {
+                    quizzes.push(current.data);
+                    current = current.next;
+                }
+                return quizzes;
+            }
+        }
+
+        // Quiz data as linked list
+        const quizList = new QuizList();
+        [
             {
-                title: "HTML Fundamentals",
+                id: "html",
+                title: "HTML Fundamentals Quiz",
                 questions: 15,
                 time: "10 mins",
                 difficulty: 2,
@@ -150,7 +389,8 @@
                 rating: 4.5
             },
             {
-                title: "CSS Fundamentals",
+                id: "css",
+                title: "CSS Styling Quiz",
                 questions: 20,
                 time: "15 mins",
                 difficulty: 3,
@@ -159,7 +399,8 @@
                 rating: 4.7
             },
             {
-                title: "JavaScript Basics",
+                id: "javascript",
+                title: "JavaScript Basics Quiz",
                 questions: 25,
                 time: "20 mins",
                 difficulty: 2,
@@ -168,47 +409,107 @@
                 rating: 4.8
             },
             {
-                title: "Python Introduction",
+                id: "python",
+                title: "Python Introduction Quiz",
                 questions: 30,
                 time: "25 mins",
                 difficulty: 4,
-                category: "css",
+                category: "python",
                 attempts: 750,
                 rating: 4.6
             },
             {
-                title: "C Programming",
+                id: "c",
+                title: "C Programming Quiz",
                 questions: 18,
                 time: "12 mins",
                 difficulty: 1,
-                category: "python",
+                category: "c",
                 attempts: 1500,
                 rating: 4.4
             },
             {
-                title: "C++ Programming",
+                id: "cpp",
+                title: "C++ & OOP Concepts Quiz",
                 questions: 22,
                 time: "18 mins",
-                difficulty: 3,
-                category: "js",
+                difficulty: 4,
+                category: "cpp",
                 attempts: 1100,
                 rating: 4.5
             }
-        ];
+        ].forEach(quiz => quizList.addQuiz(quiz));
 
-        // Render quizzes
-        function renderQuizzes(quizzes) {
-            const quizGrid = document.querySelector('.quiz-grid');
+        // DOM Elements
+        const quizGrid = document.getElementById('quiz-grid');
+        const quizSearch = document.getElementById('quiz-search');
+        const searchBtn = document.getElementById('search-btn');
+        const categoryFilter = document.getElementById('category-filter');
+        const difficultyFilter = document.getElementById('difficulty-filter');
+        const prevPageBtn = document.getElementById('prev-page');
+        const nextPageBtn = document.getElementById('next-page');
+        const pageNumbers = document.getElementById('page-numbers');
+
+        // State
+        let currentPage = 1;
+        const quizzesPerPage = 6;
+        let filteredQuizzes = quizList.toArray();
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has('error')) {
+                alert('Quiz error: ' + urlParams.get('error'));
+            }
+            
+            renderQuizzes();
+            setupEventListeners();
+            
+            document.getElementById('preloader').style.display = 'none';
+        });
+
+        function setupEventListeners() {
+            quizSearch.addEventListener('input', filterQuizzes);
+            searchBtn.addEventListener('click', filterQuizzes);
+            categoryFilter.addEventListener('change', filterQuizzes);
+            difficultyFilter.addEventListener('change', filterQuizzes);
+            
+            prevPageBtn.addEventListener('click', () => {
+                if (currentPage > 1) {
+                    currentPage--;
+                    renderQuizzes();
+                }
+            });
+            
+            nextPageBtn.addEventListener('click', () => {
+                const totalPages = Math.ceil(filteredQuizzes.length / quizzesPerPage);
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    renderQuizzes();
+                }
+            });
+        }
+
+        function renderQuizzes() {
             quizGrid.innerHTML = '';
-
-            quizzes.forEach(quiz => {
+            
+            const startIndex = (currentPage - 1) * quizzesPerPage;
+            const endIndex = startIndex + quizzesPerPage;
+            const quizzesToShow = filteredQuizzes.slice(startIndex, endIndex);
+            
+            if (quizzesToShow.length === 0) {
+                quizGrid.innerHTML = '<p class="no-results">No quizzes found matching your criteria.</p>';
+                return;
+            }
+            
+            quizzesToShow.forEach(quiz => {
                 const difficultyStars = '★'.repeat(quiz.difficulty) + '☆'.repeat(5 - quiz.difficulty);
                 
                 const quizCard = document.createElement('div');
                 quizCard.className = 'quiz-card';
                 quizCard.innerHTML = `
                     <div class="quiz-icon ${quiz.category}-icon">
-                        <i class="fab fa-${quiz.category === 'js' ? 'js' : quiz.category}"></i>
+                        <i class="fab fa-${getCategoryIcon(quiz.category)}"></i>
                     </div>
                     <h3 class="quiz-title">${quiz.title}</h3>
                     <div class="quiz-stats">
@@ -223,40 +524,54 @@
                         <span><i class="fas fa-users"></i> ${quiz.attempts.toLocaleString()} Attempts</span>
                         <span><i class="fas fa-star"></i> ${quiz.rating}</span>
                     </div>
-                    <a href="#" class="quiz-btn">Start Quiz <i class="fas fa-arrow-right"></i></a>
+                    <a href="quizzes_content.html?quiz=${quiz.id}" class="quiz-btn">Start Quiz <i class="fas fa-arrow-right"></i></a>
                 `;
                 quizGrid.appendChild(quizCard);
             });
+            
+            updatePagination();
         }
 
-        // Initial render
-        renderQuizzes(quizData);
+        function getCategoryIcon(category) {
+            const icons = {
+                'html': 'html5',
+                'css': 'css3-alt',
+                'js': 'js',
+                'python': 'python',
+                'c': 'code',
+                'cpp': 'code'
+            };
+            return icons[category] || 'code';
+        }
 
-        // Search functionality
-        document.querySelector('.search-box input').addEventListener('input', (e) => {
-            const searchTerm = e.target.value.toLowerCase();
-            const filteredQuizzes = quizData.filter(quiz => 
-            quiz.title.toLowerCase().includes(searchTerm),
-            renderQuizzes(filteredQuizzes));
-        });
-
-        // Filter functionality
-        document.querySelectorAll('.filter-options select').forEach(select => {
-            select.addEventListener('change', () => {
-                const category = document.querySelector('.filter-options select:first-child').value;
-                const difficulty = document.querySelector('.filter-options select:last-child').value;
+        function filterQuizzes() {
+            const searchTerm = quizSearch.value.toLowerCase();
+            const category = categoryFilter.value;
+            const difficulty = difficultyFilter.value;
+            
+            filteredQuizzes = quizList.toArray().filter(quiz => {
+                const matchesSearch = quiz.title.toLowerCase().includes(searchTerm);
+                const matchesCategory = category === 'all' || quiz.category === category;
+                const matchesDifficulty = difficulty === 'all' || 
+                    (difficulty === 'easy' && quiz.difficulty <= 2) ||
+                    (difficulty === 'medium' && quiz.difficulty === 3) ||
+                    (difficulty === 'hard' && quiz.difficulty >= 4);
                 
-                const filteredQuizzes = quizData.filter(quiz => {
-                    return (category === 'all' || quiz.category === category) && 
-                           (difficulty === 'all' || 
-                            (difficulty === 'easy' && quiz.difficulty <= 2) ||
-                            (difficulty === 'medium' && quiz.difficulty > 2 && quiz.difficulty <= 3) ||
-                            (difficulty === 'hard' && quiz.difficulty > 3));
-                });
-                
-                renderQuizzes(filteredQuizzes);
+                return matchesSearch && matchesCategory && matchesDifficulty;
             });
-        });
+            
+            currentPage = 1;
+            renderQuizzes();
+        }
+
+        function updatePagination() {
+            const totalPages = Math.ceil(filteredQuizzes.length / quizzesPerPage) || 1;
+            
+            prevPageBtn.disabled = currentPage === 1;
+            nextPageBtn.disabled = currentPage === totalPages;
+            
+            pageNumbers.textContent = `${currentPage} of ${totalPages}`;
+        }
     </script>
 </body>
 </html>

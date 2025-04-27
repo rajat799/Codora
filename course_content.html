@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Content | Codora</title>
+    <link rel="stylesheet" href="../CSS/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .course-content-page {
+            background: #0b0220;
+            color: white;
+            min-height: 100vh;
+            padding: 100px 20px 200px;
+        }
+        
+        .course-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            gap: 30px;
+            position: relative;
+        }
+        
+        .main-content {
+            flex: 2;
+            background: #1e1e1e;
+            border-radius: 10px;
+            padding: 20px;
+        }
+        
+        .video-container {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: #000;
+            margin-bottom: 20px;
+        }
+        
+        .content-tabs {
+            display: flex;
+            border-bottom: 1px solid #333;
+            margin-bottom: 20px;
+        }
+        
+        .tab-btn {
+            padding: 10px 20px;
+            background: none;
+            border: none;
+            color: #aaa;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .tab-btn.active {
+            color: #ffd700;
+            border-bottom: 2px solid #ffd700;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .sidebar {
+            flex: 1;
+            background: #1e1e1e;
+            border-radius: 10px;
+            padding: 20px;
+        }
+        
+        .chapter {
+            margin-bottom: 20px;
+        }
+        
+        .chapter-title {
+            color: #ffd700;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        
+        .lesson {
+            padding: 10px;
+            margin-bottom: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .lesson:hover {
+            background: rgba(255, 215, 0, 0.1);
+        }
+        
+        .lesson.active {
+            background: rgba(255, 215, 0, 0.2);
+            font-weight: bold;
+        }
+        
+        .lesson-duration {
+            color: #aaa;
+            font-size: 0.8rem;
+        }
+        
+        .completed-badge {
+            color: #4CAF50;
+            margin-left: 10px;
+        }
+        
+        .next-button-container {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 100;
+        }
+        
+        .next-quiz-btn {
+            background: #ffd700;
+            color: #0b0220;
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-weight: bold;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+            transition: all 0.3s ease;
+            display: none; /* Hidden by default */
+        }
+        
+        .next-quiz-btn:hover {
+            background: #ffc800;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4);
+        }
+    </style>
+</head>
+<body class="course-content-page">
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <a href="index.html"><span class="logo1">Codora.</span></a>
+            </div>
+            <button class="downArrow">
+                <span class="text">menu <i class="fa-solid fa-chevron-down"></i></span>
+            </button>
+            <div class="nav-elements">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="courses.html">Courses</a></li>
+                    <li><a href="quizzes.html">Quizzes</a></li>
+                    <li><a href="certificates.html">Certificates</a></li>
+                    <li><a href="contact.html">Contacts</a></li>
+                </ul>
+            </div>
+            <div class="auth-buttons" id="auth-buttons">
+                <!-- Dynamically updated by JavaScript -->
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="course-container">
+            <div class="main-content">
+                <div class="video-container" id="video-player"></div>
+                
+                <h1 id="course-title">Course Title</h1>
+                
+                <div class="content-tabs">
+                    <button class="tab-btn active" data-tab="about">About</button>
+                    <button class="tab-btn" data-tab="notes">Notes</button>
+                    <button class="tab-btn" data-tab="resources">Resources</button>
+                </div>
+                
+                <div class="tab-content active" id="about">
+                    <p id="course-description">Loading course description...</p>
+                </div>
+                
+                <div class="tab-content" id="notes">
+                    <div id="lesson-notes">
+                        <p>Select a lesson to view notes</p>
+                    </div>
+                    <textarea id="user-notes" placeholder="Take your own notes here..." style="width:100%; min-height:100px; margin-top:20px; padding:10px; background:#252525; color:white; border:1px solid #333;"></textarea>
+                    <button id="save-notes" class="auth-btn signup-btn" style="margin-top:10px;">Save Notes</button>
+                </div>
+                
+                <div class="tab-content" id="resources">
+                    <h3>Downloadable Resources</h3>
+                    <ul id="resources-list">
+                        <li>No resources available for this lesson</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="sidebar">
+                <h2>Course Content</h2>
+                <div id="course-progress" style="margin-bottom:20px;">
+                    <div style="display:flex; justify-content:space-between;">
+                        <span>Progress:</span>
+                        <span id="progress-percent">0%</span>
+                    </div>
+                    <div style="height:5px; background:#333; margin-top:5px;">
+                        <div id="progress-bar" style="height:100%; width:0%; background:#ffd700;"></div>
+                    </div>
+                </div>
+                
+                <div id="chapters-list">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+                
+                <button id="mark-complete" class="auth-btn signup-btn" style="width:100%; margin-top:20px; display:none;">
+                    <i class="fas fa-check-circle"></i> Mark as Complete
+                </button>
+            </div>
+        </div>
+        
+        <div class="next-button-container">
+            <a href="#" id="next-quiz-btn" class="next-quiz-btn">
+                Next: Quiz <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+    </main>
+
+    <script>
+        // Authentication check
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        const authButtons = document.getElementById('auth-buttons');
+
+        if (!currentUser) {
+            window.location.href = 'login.html';
+        } else {
+            authButtons.innerHTML = `
+                <span style="color: white; margin-right: 10px;">Hello, ${currentUser.name}</span>
+                <button onclick="logout()" class="auth-btn logout-btn">Log Out</button>
+            `;
+        }
+
+        function logout() {
+            localStorage.removeItem('currentUser');
+            window.location.href = 'login.html';
+        }
+
+        // Load YouTube API
+        const tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        const firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+        
+        let player;
+        let currentCourse;
+        let currentLessonId;
+        let completedLessons = [];
+
+        // Linked List Implementation for Lessons
+        class LessonNode {
+            constructor(data) {
+                this.data = data; // { id, title, youtubeId, duration, notes, resources }
+                this.next = null;
+            }
+        }
+
+        class LessonList {
+            constructor() {
+                this.head = null;
+            }
+
+            addLesson(data) {
+                const newNode = new LessonNode(data);
+                if (!this.head) {
+                    this.head = newNode;
+                } else {
+                    let current = this.head;
+                    while (current.next) {
+                        current = current.next;
+                    }
+                    current.next = newNode;
+                }
+            }
+
+            toArray() {
+                const lessons = [];
+                let current = this.head;
+                while (current) {
+                    lessons.push(current.data);
+                    current = current.next;
+                }
+                return lessons;
+            }
+
+            findLesson(lessonId) {
+                let current = this.head;
+                while (current) {
+                    if (current.data.id === lessonId) {
+                        return current.data;
+                    }
+                    current = current.next;
+                }
+                return null;
+            }
+        }
+
+        // Complete Course Data
+        const sampleCourses = {
+            html: {
+                id: 'html',
+                title: 'HTML Fundamentals',
+                description: 'Master the building blocks of web development with this comprehensive HTML course.',
+                thumbnail: '../images/html_img.png',
+                lessons: new LessonList(),
+                chapters: [
+                    { title: 'Getting Started', lessonIds: ['html-intro', 'html-elements'] },
+                    { title: 'Advanced Topics', lessonIds: ['html-forms', 'html-semantics', 'html-best-practices'] }
+                ]
+            },
+            css: {
+                id: 'css',
+                title: 'CSS Styling Masterclass',
+                description: 'Learn how to make beautiful websites with CSS.',
+                thumbnail: '../images/css_img.png',
+                lessons: new LessonList(),
+                chapters: [
+                    { title: 'Fundamentals', lessonIds: ['css-intro', 'css-selectors'] },
+                    { title: 'Layout & Effects', lessonIds: ['css-flexbox', 'css-grid', 'css-animations'] }
+                ]
+            },
+            javascript: {
+                id: 'javascript',
+                title: 'JavaScript Programming',
+                description: 'Learn the language of the web with our JavaScript course.',
+                thumbnail: '../images/javascript_img.png',
+                lessons: new LessonList(),
+                chapters: [
+                    { title: 'Core Concepts', lessonIds: ['js-intro', 'js-functions'] },
+                    { title: 'Advanced Topics', lessonIds: ['js-dom', 'js-async', 'js-es6'] }
+                ]
+            },
+            python: {
+                id: 'python',
+                title: 'Python for Beginners',
+                description: 'Learn Python programming from scratch with practical examples.',
+                thumbnail: '../images/python_img.png',
+                lessons: new LessonList(),
+                chapters: [
+                    { title: 'Fundamentals', lessonIds: ['py-intro', 'py-functions'] },
+                    { title: 'Advanced Concepts', lessonIds: ['py-oop', 'py-fileio', 'py-libraries'] }
+                ]
+            },
+            c: {
+                id: 'c',
+                title: 'C Programming',
+                description: 'Master the fundamentals of C programming language.',
+                thumbnail: '../images/c_img.png',
+                lessons: new LessonList(),
+                chapters: [
+                    { title: 'Basics', lessonIds: ['c-intro'] },
+                    { title: 'Core Concepts', lessonIds: ['c-pointers', 'c-structs'] },
+                    { title: 'Advanced Topics', lessonIds: ['c-files', 'c-advanced'] }
+                ]
+            },
+            cpp: {
+                id: 'cpp',
+                title: 'C++ and OOP',
+                description: 'Learn object-oriented programming with C++.',
+                thumbnail: '../images/cpp_img.png',
+                lessons: new LessonList(),
+                chapters: [
+                    { title: 'Fundamentals', lessonIds: ['cpp-intro'] },
+                    { title: 'OOP', lessonIds: ['cpp-oop'] },
+                    { title: 'Advanced Features', lessonIds: ['cpp-stl', 'cpp-templates', 'cpp-advanced'] }
+                ]
+            }
+        };
+
+        // Populate lessons as linked lists
+        sampleCourses.html.lessons.addLesson({
+            id: 'html-intro',
+            title: '1. Introduction to HTML',
+            youtubeId: 'Y1BlT4_c_SU',
+            duration: '8:32',
+            notes: '<h3>What is HTML?</h3><p>HTML stands for HyperText Markup Language...</p>',
+            resources: [{ name: 'HTML Cheat Sheet', url: '#' }]
+        });
+        sampleCourses.html.lessons.addLesson({
+            id: 'html-elements',
+            title: '2. HTML Elements and Tags',
+            youtubeId: 'DxhXFpsN5I4',
+            duration: '12:45',
+            notes: '<h3>Basic Elements</h3><p>HTML documents are made up of elements...</p>',
+            resources: [{ name: 'HTML Tags Reference', url: '#' }]
+        });
+        sampleCourses.html.lessons.addLesson({
+            id: 'html-forms',
+            title: '3. HTML Forms',
+            youtubeId: 'fNcJuPIZ2WE',
+            duration: '15:20',
+            notes: '<h3>Creating Forms</h3><p>Forms allow user input...</p>',
+            resources: [{ name: 'Forms Guide', url: '#' }]
+        });
+        sampleCourses.html.lessons.addLesson({
+            id: 'html-semantics',
+            title: '4. Semantic HTML',
+            youtubeId: 'kGW8Al_cga4',
+            duration: '10:15',
+            notes: '<h3>Why Semantics Matter</h3><p>Semantic elements clearly describe their meaning...</p>',
+            resources: [{ name: 'Semantic HTML Guide', url: '#' }]
+        });
+        sampleCourses.html.lessons.addLesson({
+            id: 'html-best-practices',
+            title: '5. HTML Best Practices',
+            youtubeId: 'Wm6CUkswsNw',
+            duration: '14:30',
+            notes: '<h3>Coding Standards</h3><p>Follow these guidelines for clean HTML...</p>',
+            resources: [{ name: 'HTML Best Practices', url: '#' }]
+        });
+
+        sampleCourses.css.lessons.addLesson({
+            id: 'css-intro',
+            title: '1. CSS Basics',
+            youtubeId: 'yfoY53QXEnI',
+            duration: '10:45',
+            notes: '<h3>CSS Introduction</h3><p>Learn how to style your HTML elements...</p>',
+            resources: [{ name: 'CSS Basics Guide', url: '#' }]
+        });
+        sampleCourses.css.lessons.addLesson({
+            id: 'css-selectors',
+            title: '2. CSS Selectors',
+            youtubeId: 'l1mER1bV0N0',
+            duration: '12:30',
+            notes: '<h3>Targeting Elements</h3><p>Different ways to select elements...</p>',
+            resources: [{ name: 'Selectors Reference', url: '#' }]
+        });
+        sampleCourses.css.lessons.addLesson({
+            id: 'css-flexbox',
+            title: '3. Flexbox Layout',
+            youtubeId: 'JJSoEo8JSnc',
+            duration: '18:20',
+            notes: '<h3>Modern Layouts</h3><p>Create flexible layouts with Flexbox...</p>',
+            resources: [{ name: 'Flexbox Guide', url: '#' }]
+        });
+        sampleCourses.css.lessons.addLesson({
+            id: 'css-grid',
+            title: '4. CSS Grid',
+            youtubeId: '9zBsdzdE4sM',
+            duration: '16:45',
+            notes: '<h3>Grid Systems</h3><p>Two-dimensional layout system...</p>',
+            resources: [{ name: 'CSS Grid Guide', url: '#' }]
+        });
+        sampleCourses.css.lessons.addLesson({
+            id: 'css-animations',
+            title: '5. Animations',
+            youtubeId: 'YszONjKpgg4',
+            duration: '14:10',
+            notes: '<h3>Bringing Sites to Life</h3><p>Create engaging animations...</p>',
+            resources: [{ name: 'Animations Tutorial', url: '#' }]
+        });
+
+        sampleCourses.javascript.lessons.addLesson({
+            id: 'js-intro',
+            title: '1. JavaScript Basics',
+            youtubeId: 'W6NZfCO5SIk',
+            duration: '12:30',
+            notes: '<h3>Getting Started</h3><p>Introduction to JavaScript syntax...</p>',
+            resources: [{ name: 'JavaScript Basics', url: '#' }]
+        });
+        sampleCourses.javascript.lessons.addLesson({
+            id: 'js-functions',
+            title: '2. Functions & Scope',
+            youtubeId: 'N8ap4k_1QEQ',
+            duration: '15:45',
+            notes: '<h3>Reusable Code</h3><p>Creating and using functions...</p>',
+            resources: [{ name: 'Functions Guide', url: '#' }]
+        });
+        sampleCourses.javascript.lessons.addLesson({
+            id: 'js-dom',
+            title: '3. DOM Manipulation',
+            youtubeId: '0ik6X4DJKCc',
+            duration: '20:15',
+            notes: '<h3>Interactive Web Pages</h3><p>Working with the Document Object Model...</p>',
+            resources: [{ name: 'DOM Guide', url: '#' }]
+        });
+        sampleCourses.javascript.lessons.addLesson({
+            id: 'js-async',
+            title: '4. Async JavaScript',
+            youtubeId: 'PoRJizFvM7s',
+            duration: '18:30',
+            notes: '<h3>Promises & Async/Await</h3><p>Handling asynchronous operations...</p>',
+            resources: [{ name: 'Async JS Guide', url: '#' }]
+        });
+        sampleCourses.javascript.lessons.addLesson({
+            id: 'js-es6',
+            title: '5. Modern ES6+',
+            youtubeId: 'NCwa_xi0Uuc',
+            duration: '16:20',
+            notes: '<h3>New Features</h3><p>Arrow functions, destructuring, etc...</p>',
+            resources: [{ name: 'ES6 Guide', url: '#' }]
+        });
+
+        sampleCourses.python.lessons.addLesson({
+            id: 'py-intro',
+            title: '1. Python Basics',
+            youtubeId: 'rfscVS0vtbw',
+            duration: '15:00',
+            notes: '<h3>Getting Started</h3><p>Python syntax and fundamentals...</p>',
+            resources: [{ name: 'Python Basics', url: '#' }]
+        });
+        sampleCourses.python.lessons.addLesson({
+            id: 'py-functions',
+            title: '2. Functions & Modules',
+            youtubeId: '9Os0o3wzS_I',
+            duration: '18:20',
+            notes: '<h3>Code Organization</h3><p>Creating reusable code...</p>',
+            resources: [{ name: 'Functions Guide', url: '#' }]
+        });
+        sampleCourses.python.lessons.addLesson({
+            id: 'py-oop',
+            title: '3. OOP in Python',
+            youtubeId: 'Ej_02ICOIgs',
+            duration: '22:10',
+            notes: '<h3>Object-Oriented Programming</h3><p>Classes and objects...</p>',
+            resources: [{ name: 'OOP Guide', url: '#' }]
+        });
+        sampleCourses.python.lessons.addLesson({
+            id: 'py-fileio',
+            title: '4. File Handling',
+            youtubeId: 'Uh2ebFW8OYM',
+            duration: '12:45',
+            notes: '<h3>Working with Files</h3><p>Reading and writing data...</p>',
+            resources: [{ name: 'File I/O Guide', url: '#' }]
+        });
+        sampleCourses.python.lessons.addLesson({
+            id: 'py-libraries',
+            title: '5. Popular Libraries',
+            youtubeId: 'CqvZ3vGoGs0',
+            duration: '20:30',
+            notes: '<h3>Extending Python</h3><p>NumPy, Pandas, and more...</p>',
+            resources: [{ name: 'Libraries Guide', url: '#' }]
+        });
+
+        sampleCourses.c.lessons.addLesson({
+            id: 'c-intro',
+            title: '1. Introduction to C',
+            youtubeId: 'KJgsSFOSQv0',
+            duration: '12:00',
+            notes: '<h3>Getting Started</h3><p>C language fundamentals...</p>',
+            resources: [{ name: 'C Basics', url: '#' }]
+        });
+        sampleCourses.c.lessons.addLesson({
+            id: 'c-pointers',
+            title: '2. Pointers',
+            youtubeId: 'zuegQmMdy8M',
+            duration: '20:45',
+            notes: '<h3>Memory Management</h3><p>Understanding pointers...</p>',
+            resources: [{ name: 'Pointers Guide', url: '#' }]
+        });
+        sampleCourses.c.lessons.addLesson({
+            id: 'c-structs',
+            title: '3. Structures',
+            youtubeId: 'VMFKz7Klx7I',
+            duration: '15:30',
+            notes: '<h3>Data Structures</h3><p>Creating custom types...</p>',
+            resources: [{ name: 'Structures Guide', url: '#' }]
+        });
+        sampleCourses.c.lessons.addLesson({
+            id: 'c-files',
+            title: '4. File I/O',
+            youtubeId: '7pJh2IPr3Hs',
+            duration: '14:20',
+            notes: '<h3>Working with Files</h3><p>Reading and writing data...</p>',
+            resources: [{ name: 'File I/O Guide', url: '#' }]
+        });
+        sampleCourses.c.lessons.addLesson({
+            id: 'c-advanced',
+            title: '5. Advanced Concepts',
+            youtubeId: 'dQw4w9WgXcQ',
+            duration: '18:15',
+            notes: '<h3>Going Further</h3><p>Memory management, etc...</p>',
+            resources: [{ name: 'Advanced C Guide', url: '#' }]
+        });
+
+        sampleCourses.cpp.lessons.addLesson({
+            id: 'cpp-intro',
+            title: '1. C++ Basics',
+            youtubeId: 'vLnPwxZdW4Y',
+            duration: '14:20',
+            notes: '<h3>Getting Started</h3><p>C++ fundamentals...</p>',
+            resources: [{ name: 'C++ Basics', url: '#' }]
+        });
+        sampleCourses.cpp.lessons.addLesson({
+            id: 'cpp-oop',
+            title: '2. OOP Concepts',
+            youtubeId: 'wN0x9eZLix4',
+            duration: '22:30',
+            notes: '<h3>Object-Oriented Programming</h3><p>Classes and objects...</p>',
+            resources: [{ name: 'OOP Guide', url: '#' }]
+        });
+        sampleCourses.cpp.lessons.addLesson({
+            id: 'cpp-stl',
+            title: '3. STL Containers',
+            youtubeId: 'LyGlTmaWEPs',
+            duration: '19:45',
+            notes: '<h3>Standard Template Library</h3><p>Vectors, maps, etc...</p>',
+            resources: [{ name: 'STL Guide', url: '#' }]
+        });
+        sampleCourses.cpp.lessons.addLesson({
+            id: 'cpp-templates',
+            title: '4. Templates',
+            youtubeId: 'I-hZkUa9mIs',
+            duration: '16:10',
+            notes: '<h3>Generic Programming</h3><p>Creating reusable code...</p>',
+            resources: [{ name: 'Templates Guide', url: '#' }]
+        });
+        sampleCourses.cpp.lessons.addLesson({
+            id: 'cpp-advanced',
+            title: '5. Advanced Features',
+            youtubeId: 'Rub-JsjMhWY',
+            duration: '25:00',
+            notes: '<h3>Modern C++</h3><p>Smart pointers, lambdas, etc...</p>',
+            resources: [{ name: 'Advanced C++ Guide', url: '#' }]
+        });
+
+        // Tab switching
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                
+                btn.classList.add('active');
+                document.getElementById(btn.dataset.tab).classList.add('active');
+            });
+        });
+        
+        async function loadCourse() {
+            const courseId = new URLSearchParams(window.location.search).get('course');
+            
+            try {
+                const normalizedCourseId = courseId.toLowerCase();
+                currentCourse = sampleCourses[normalizedCourseId];
+                
+                if (!currentCourse) {
+                    alert('Course not found');
+                    window.location.href = 'courses.html';
+                    return;
+                }
+                
+                document.title = currentCourse.title + ' | Codora';
+                document.getElementById('course-title').textContent = currentCourse.title;
+                document.getElementById('course-description').textContent = currentCourse.description;
+                
+                renderCourseOutline();
+                loadLesson(currentCourse.lessons.toArray()[0].id);
+                
+                loadProgress();
+                
+                document.getElementById('next-quiz-btn').href = `quizzes.html?course=${currentCourse.id}`;
+                
+            } catch (error) {
+                console.error('Error loading course:', error);
+                alert('Failed to load course');
+            }
+        }
+        
+        function renderCourseOutline() {
+            const container = document.getElementById('chapters-list');
+            container.innerHTML = '';
+            
+            currentCourse.chapters.forEach(chapter => {
+                const chapterDiv = document.createElement('div');
+                chapterDiv.className = 'chapter';
+                chapterDiv.innerHTML = `<h3 class="chapter-title">${chapter.title}</h3>`;
+                
+                const lessonsList = document.createElement('div');
+                
+                chapter.lessonIds.forEach(lessonId => {
+                    const lesson = currentCourse.lessons.findLesson(lessonId);
+                    const lessonDiv = document.createElement('div');
+                    lessonDiv.className = 'lesson';
+                    lessonDiv.dataset.lessonId = lessonId;
+                    lessonDiv.innerHTML = `
+                        <span>${lesson.title}</span>
+                        <span class="lesson-duration">${lesson.duration}</span>
+                        <i class="fas fa-check-circle completed-badge" style="display:none;"></i>
+                    `;
+                    
+                    lessonDiv.addEventListener('click', () => loadLesson(lessonId));
+                    lessonsList.appendChild(lessonDiv);
+                });
+                
+                chapterDiv.appendChild(lessonsList);
+                container.appendChild(chapterDiv);
+            });
+        }
+        
+        function loadLesson(lessonId) {
+            const lesson = currentCourse.lessons.findLesson(lessonId);
+            if (!lesson) return;
+            
+            currentLessonId = lessonId;
+            
+            document.querySelectorAll('.lesson').forEach(el => {
+                el.classList.remove('active');
+                if (el.dataset.lessonId === lessonId) {
+                    el.classList.add('active');
+                }
+            });
+            
+            if (player) {
+                player.loadVideoById(lesson.youtubeId);
+            } else {
+                player = new YT.Player('video-player', {
+                    height: '100%',
+                    width: '100%',
+                    videoId: lesson.youtubeId,
+                    playerVars: {
+                        'autoplay': 1,
+                        'controls': 1,
+                        'modestbranding': 1,
+                        'rel': 0
+                    },
+                    events: {
+                        'onStateChange': onPlayerStateChange
+                    }
+                });
+            }
+            
+            document.getElementById('lesson-notes').innerHTML = lesson.notes || '<p>No notes available for this lesson</p>';
+            
+            const resourcesList = document.getElementById('resources-list');
+            resourcesList.innerHTML = '';
+            
+            if (lesson.resources && lesson.resources.length > 0) {
+                lesson.resources.forEach(resource => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `<a href="${resource.url}" target="_blank">${resource.name}</a>`;
+                    resourcesList.appendChild(li);
+                });
+            } else {
+                resourcesList.innerHTML = '<li>No resources available for this lesson</li>';
+            }
+            
+            document.getElementById('mark-complete').style.display = 'block';
+            
+            const savedNotes = localStorage.getItem(`notes-${currentCourse.id}-${currentLessonId}`);
+            if (savedNotes) {
+                document.getElementById('user-notes').value = savedNotes;
+            } else {
+                document.getElementById('user-notes').value = '';
+            }
+            
+            const lastLessonId = currentCourse.lessons.toArray()[currentCourse.lessons.toArray().length - 1].id;
+            if (lessonId === lastLessonId && completedLessons.includes(lessonId)) {
+                document.getElementById('next-quiz-btn').style.display = 'flex';
+            } else {
+                document.getElementById('next-quiz-btn').style.display = 'none';
+            }
+        }
+        
+        function onPlayerStateChange(event) {
+            // Add progress tracking here if needed
+        }
+        
+        function loadProgress() {
+            const progressData = localStorage.getItem(`progress-${currentCourse.id}`);
+            
+            let progress = {
+                completedLessons: [],
+                progress: 0
+            };
+            
+            if (progressData) {
+                progress = JSON.parse(progressData);
+            }
+            
+            completedLessons = progress.completedLessons;
+            updateProgressUI(progress);
+        }
+        
+        function updateProgressUI(progress) {
+            document.getElementById('progress-bar').style.width = `${progress.progress}%`;
+            document.getElementById('progress-percent').textContent = `${progress.progress}%`;
+            
+            document.querySelectorAll('.lesson').forEach(el => {
+                const badge = el.querySelector('.completed-badge');
+                if (progress.completedLessons.includes(el.dataset.lessonId)) {
+                    badge.style.display = 'inline';
+                } else {
+                    badge.style.display = 'none';
+                }
+            });
+            
+            const allLessonsCompleted = currentCourse.lessons.toArray().every(lesson => 
+                progress.completedLessons.includes(lesson.id)
+            );
+            
+            const lastLessonId = currentCourse.lessons.toArray()[currentCourse.lessons.toArray().length - 1].id;
+            const isLastLesson = currentLessonId === lastLessonId;
+            
+            if (allLessonsCompleted && isLastLesson) {
+                document.getElementById('next-quiz-btn').style.display = 'flex';
+            } else {
+                document.getElementById('next-quiz-btn').style.display = 'none';
+            }
+        }
+        
+        document.getElementById('mark-complete').addEventListener('click', async () => {
+            if (!completedLessons.includes(currentLessonId)) {
+                completedLessons.push(currentLessonId);
+                
+                const progressPercent = Math.round(
+                    (completedLessons.length / currentCourse.lessons.toArray().length) * 100
+                );
+                
+                const progressData = {
+                    completedLessons,
+                    progress: progressPercent
+                };
+                
+                localStorage.setItem(
+                    `progress-${currentCourse.id}`,
+                    JSON.stringify(progressData)
+                );
+                
+                updateProgressUI(progressData);
+                
+                const lastLessonId = currentCourse.lessons.toArray()[currentCourse.lessons.toArray().length - 1].id;
+                if (currentLessonId === lastLessonId) {
+                    document.getElementById('next-quiz-btn').style.display = 'flex';
+                }
+                
+                alert('Lesson marked as complete!');
+            } else {
+                alert('You have already completed this lesson!');
+            }
+        });
+        
+        document.getElementById('save-notes').addEventListener('click', () => {
+            const notes = document.getElementById('user-notes').value;
+            localStorage.setItem(`notes-${currentCourse.id}-${currentLessonId}`, notes);
+            alert('Notes saved!');
+        });
+        
+        window.onYouTubeIframeAPIReady = loadCourse;
+
+        function resetAllProgress() {
+            Object.keys(localStorage).forEach(key => {
+                if (key.startsWith('progress-') || key.startsWith('notes-')) {
+                    localStorage.removeItem(key);
+                }
+            });
+            location.reload();
+        }
+    </script>
+</body>
+</html>

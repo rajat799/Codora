@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us | Codora</title>
+    <link rel="stylesheet" href="CSS/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            background: #0b0220;
+            color: white;
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .contact-page {
+            padding: 100px 20px 50px;
+        }
+
+        .contact-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .page-header h1 {
+            color: #ffd700;
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .page-header p {
+            color: #aaa;
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .contact-content {
+            display: flex;
+            gap: 40px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .contact-form {
+            flex: 1;
+            min-width: 300px;
+            background: #1e1e1e;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .contact-form h2 {
+            color: #ffd700;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #aaa;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ffd700;
+            border-radius: 5px;
+            background: #252525;
+            color: white;
+            font-size: 1rem;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .submit-btn {
+            background: #ffd700;
+            color: #0b0220;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background: #ffcc00;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .contact-info {
+            flex: 1;
+            min-width: 300px;
+            background: #1e1e1e;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .contact-info h2 {
+            color: #ffd700;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+
+        .contact-info p {
+            color: #aaa;
+            font-size: 1rem;
+            margin-bottom: 15px;
+        }
+
+        .contact-info a {
+            color: #ffd700;
+            text-decoration: none;
+        }
+
+        .contact-info a:hover {
+            color: #ffcc00;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-link {
+            color: #ffd700;
+            font-size: 1.8rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            color: #ffcc00;
+            transform: translateY(-3px);
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .contact-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .page-header h1 {
+                font-size: 2rem;
+            }
+
+            .contact-form,
+            .contact-info {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body class="contact-page">
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <a href="index.html"><span class="logo1">Codora.</span></a>
+            </div>
+            <button class="downArrow">
+                <span class="text">menu <i class="fa-solid fa-chevron-down"></i></span>
+            </button>
+            <div class="nav-elements">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="courses.html">Courses</a></li>
+                    <li><a href="quizzes.html">Quizzes</a></li>
+                    <li><a href="certificates.html">Certificates</a></li>
+                    <li><a href="contacts.html" class="active">Contacts</a></li>
+                </ul>
+            </div>
+            <div class="auth-buttons" id="auth-buttons"></div>
+        </div>
+    </header>
+    <main>
+        <div class="contact-container">
+            <div class="page-header">
+                <h1>Contact Us</h1>
+                <p>We're here to help! Reach out with any questions, feedback, or support inquiries.</p>
+            </div>
+            <div class="contact-content">
+                <div class="contact-form">
+                    <h2>Send Us a Message</h2>
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="subject">Subject</label>
+                        <input type="text" id="subject" name="subject" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" required></textarea>
+                    </div>
+                    <button type="button" class="submit-btn" onclick="submitContactForm()">
+                        <i class="fas fa-paper-plane"></i> Send Message
+                    </button>
+                </div>
+                <div class="contact-info">
+                    <h2>Get in Touch</h2>
+                    <p><i class="fas fa-envelope"></i> Email: <a href="mailto:support@codora.com">support@codora.com</a></p>
+                    <p><i class="fas fa-info-circle"></i> For support, include your account email and issue details.</p>
+                    <p><i class="fas fa-clock"></i> Response time: Within 24-48 hours.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer">
+                &copy; 2025 Codora. All rights reserved.
+            </div>
+        </div>
+    </main>
+    <script>
+        // Authentication check
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        const authButtons = document.getElementById('auth-buttons');
+
+        if (!currentUser) {
+            window.location.href = 'login.html';
+        } else {
+            authButtons.innerHTML = `
+                <span style="color: white; margin-right: 10px;">Hello, ${currentUser.name}</span>
+                <button onclick="logout()" class="auth-btn logout-btn">Log Out</button>
+            `;
+        }
+
+        function logout() {
+            localStorage.removeItem('currentUser');
+            window.location.href = 'login.html';
+        }
+
+        // Contact form submission (client-side simulation)
+        function submitContactForm() {
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const subject = document.getElementById('subject').value.trim();
+            const message = document.getElementById('message').value.trim();
+
+            if (!name || !email || !subject || !message) {
+                alert('Please fill in all fields.');
+                return;
+            }
+
+            // Simulate submission by storing in localStorage
+            const contactSubmissions = JSON.parse(localStorage.getItem('contactSubmissions') || '[]');
+            contactSubmissions.push({
+                name,
+                email,
+                subject,
+                message,
+                date: new Date().toISOString()
+            });
+            localStorage.setItem('contactSubmissions', JSON.stringify(contactSubmissions));
+
+            // Clear form
+            document.getElementById('name').value = '';
+            document.getElementById('email').value = '';
+            document.getElementById('subject').value = '';
+            document.getElementById('message').value = '';
+
+            // Show confirmation
+            alert('Thank you for your message! Our team will respond within 24-48 hours.');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quizzes | Codora</title>
+    <link rel="stylesheet" href="CSS/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .quiz-content-page {
+            background: #0b0220;
+            color: white;
+            min-height: 100vh;
+            padding: 100px 20px 50px;
+        }
+        
+        .quiz-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            gap: 30px;
+        }
+        
+        .main-content {
+            flex: 2;
+            background: #1e1e1e;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        .quiz-header {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #333;
+        }
+        
+        .quiz-header h1 {
+            color: #ffd700;
+            margin-bottom: 10px;
+            font-size: 2rem;
+        }
+        
+        .quiz-header p {
+            color: #aaa;
+            font-size: 1rem;
+        }
+        
+        .quiz-progress {
+            height: 6px;
+            background: #333;
+            margin: 20px 0;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #ffd700, #ffcc00);
+            border-radius: 3px;
+            width: 0%;
+            transition: width 0.4s ease;
+        }
+        
+        .question-container {
+            margin-bottom: 30px;
+        }
+        
+        .question-text {
+            font-size: 1.2rem;
+            margin-bottom: 25px;
+            line-height: 1.6;
+            color: #fff;
+        }
+        
+        .options-container {
+            display: grid;
+            gap: 15px;
+        }
+        
+        .option {
+            background: #252525;
+            padding: 18px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            border-left: 4px solid transparent;
+        }
+        
+        .option:hover {
+            background: rgba(255, 215, 0, 0.1);
+            transform: translateX(5px);
+        }
+        
+        .option.selected {
+            background: rgba(255, 215, 0, 0.2);
+            border-left: 4px solid #ffd700;
+        }
+        
+        .option-correct {
+            background: rgba(0, 200, 83, 0.2) !important;
+            border-left: 4px solid #00c853 !important;
+        }
+        
+        .option-incorrect {
+            background: rgba(255, 54, 54, 0.2) !important;
+            border-left: 4px solid #ff3636 !important;
+        }
+        
+        .option input {
+            margin-right: 15px;
+            width: 18px;
+            height: 18px;
+            accent-color: #ffd700;
+        }
+        
+        .quiz-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        
+        .quiz-btn {
+            padding: 12px 25px;
+            background: #ffd700;
+            color: #0b0220;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .quiz-btn:hover {
+            background: #ffcc00;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+        }
+        
+        .quiz-btn:disabled {
+            background: #555;
+            color: #888;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .sidebar {
+            flex: 1;
+            background: #1e1e1e;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+        
+        .sidebar h2 {
+            color: #ffd700;
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+            border-bottom: 1px solid #333;
+            padding-bottom: 10px;
+        }
+        
+        .question-palette {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+        
+        .question-number {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #252525;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: bold;
+        }
+        
+        .question-number:hover {
+            background: rgba(255, 215, 0, 0.1);
+        }
+        
+        .question-number.active {
+            background: rgba(255, 215, 0, 0.2);
+            color: #ffd700;
+            border: 1px solid #ffd700;
+        }
+        
+        .question-number.answered {
+            background: rgba(0, 200, 83, 0.2);
+            color: #00c853;
+            border: 1px solid #00c853;
+        }
+        
+        .quiz-instructions {
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 20px;
+            border-left: 3px solid #ffd700;
+        }
+        
+        .quiz-instructions h3 {
+            color: #ffd700;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        
+        .quiz-instructions ul {
+            list-style-type: none;
+            padding-left: 5px;
+            line-height: 1.8;
+            color: #ccc;
+        }
+        
+        .quiz-instructions li::before {
+            content: "•";
+            color: #ffd700;
+            display: inline-block;
+            width: 1em;
+            margin-left: -1em;
+        }
+        
+        .quiz-result {
+            text-align: center;
+            padding: 30px;
+        }
+        
+        .quiz-result h2 {
+            color: #ffd700;
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+        
+        .quiz-score {
+            font-size: 3.5rem;
+            color: #ffd700;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+        
+        .result-message {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            color: #ccc;
+        }
+        
+        .result-actions {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .result-btn {
+            padding: 12px 25px;
+            border-radius: 6px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .result-btn.primary {
+            background: #ffd700;
+            color: #0b0220;
+        }
+        
+        .result-btn.primary:hover {
+            background: #ffcc00;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+        }
+        
+        .result-btn.secondary {
+            background: #252525;
+            color: #ffd700;
+            border: 1px solid #ffd700;
+        }
+        
+        .result-btn.secondary:hover {
+            background: rgba(255, 215, 0, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        /* Certificate Button Styles */
+        .certificate-btn {
+            padding: 12px 25px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .certificate-btn:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.3);
+        }
+        
+        .certificate-btn i {
+            font-size: 1.2rem;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .quiz-container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                position: static;
+                margin-top: 30px;
+            }
+            
+            .question-palette {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            
+            .result-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+        
+        /* Animation for option feedback */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+        
+        .option-correct, .option-incorrect {
+            animation: pulse 0.5s ease;
+        }
+    </style>
+</head>
+<body class="quiz-content-page">
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <a href="index.html"><span class="logo1">Codora.</span></a>
+            </div>
+            <button class="downArrow">
+                <span class="text">menu <i class="fa-solid fa-chevron-down"></i></span>
+            </button>
+            <div class="nav-elements">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="courses.html">Courses</a></li>
+                    <li><a href="quizzes.html" class="active">Quizzes</a></li>
+                    <li><a href="certificates.html">Certificates</a></li>
+                    <li><a href="contact.html">Contacts</a></li>
+                </ul>
+            </div>
+            <div class="auth-buttons" id="auth-buttons">
+                <!-- Dynamically updated by JavaScript -->
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="quiz-container">
+            <div class="main-content" id="quiz-main">
+                <!-- Dynamic content will be inserted here by JavaScript -->
+            </div>
+            
+            <div class="sidebar">
+                <!-- Dynamic sidebar content will be inserted here by JavaScript -->
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Authentication check
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        const authButtons = document.getElementById('auth-buttons');
+
+        if (!currentUser) {
+            window.location.href = 'login.html';
+        } else {
+            authButtons.innerHTML = `
+                <span style="color: white; margin-right: 10px;">Hello, ${currentUser.name}</span>
+                <button onclick="logout()" class="auth-btn logout-btn">Log Out</button>
+            `;
+        }
+
+        function logout() {
+            localStorage.removeItem('currentUser');
+            window.location.href = 'login.html';
+        }
+
+        // Linked List Implementation for Questions
+        class QuestionNode {
+            constructor(data) {
+                this.data = data; // { question, options, answer, explanation }
+                this.next = null;
+            }
+        }
+
+        class QuestionList {
+            constructor() {
+                this.head = null;
+            }
+
+            addQuestion(data) {
+                const newNode = new QuestionNode(data);
+                if (!this.head) {
+                    this.head = newNode;
+                } else {
+                    let current = this.head;
+                    while (current.next) {
+                        current = current.next;
+                    }
+                    current.next = newNode;
+                }
+            }
+
+            toArray() {
+                const questions = [];
+                let current = this.head;
+                while (current) {
+                    questions.push(current.data);
+                    current = current.next;
+                }
+                return questions;
+            }
+
+            getQuestion(index) {
+                let current = this.head;
+                let i = 0;
+                while (current && i < index) {
+                    current = current.next;
+                    i++;
+                }
+                return current ? current.data : null;
+            }
+
+            length() {
+                let count = 0;
+                let current = this.head;
+                while (current) {
+                    count++;
+                    current = current.next;
+                }
+                return count;
+            }
+        }
+
+        // Comprehensive Quiz Data
+        const allQuizzes = {
+            html: {
+                title: "HTML Fundamentals Quiz",
+                description: "Test your HTML knowledge after completing the course",
+                questions: new QuestionList()
+            },
+            css: {
+                title: "CSS Styling Quiz",
+                description: "Test your CSS knowledge after completing the course",
+                questions: new QuestionList()
+            },
+            javascript: {
+                title: "JavaScript Fundamentals Quiz",
+                description: "Test your JavaScript knowledge after completing the course",
+                questions: new QuestionList()
+            },
+            python: {
+                title: "Python Fundamentals Quiz",
+                description: "Test your Python knowledge after completing the course",
+                questions: new QuestionList()
+            },
+            c: {
+                title: "C Programming Quiz",
+                description: "Test your C programming knowledge after completing the course",
+                questions: new QuestionList()
+            },
+            cpp: {
+                title: "C++ & OOP Concepts Quiz",
+                description: "Test your C++ and Object-Oriented Programming knowledge",
+                questions: new QuestionList()
+            }
+        };
+
+        // Populate questions as linked lists
+        allQuizzes.html.questions.addQuestion({
+            question: "What does HTML stand for?",
+            options: [
+                "Hyper Text Markup Language",
+                "Home Tool Markup Language",
+                "Hyperlinks and Text Markup Language",
+                "Hyper Transfer Markup Language"
+            ],
+            answer: 0,
+            explanation: "HTML stands for Hyper Text Markup Language, which is the standard markup language for creating web pages."
+        });
+        allQuizzes.html.questions.addQuestion({
+            question: "Which HTML element is used for the largest heading?",
+            options: [
+                "heading",
+                "h1",
+                "head",
+                "h6"
+            ],
+            answer: 1,
+            explanation: "The <h1> element is used for the most important heading (largest size) in HTML."
+        });
+        allQuizzes.html.questions.addQuestion({
+            question: "What is the correct HTML element for inserting a line break?",
+            options: [
+                "break",
+                "lb",
+                "br",
+                "newline"
+            ],
+            answer: 2,
+            explanation: "The <br> tag inserts a single line break in HTML."
+        });
+        allQuizzes.html.questions.addQuestion({
+            question: "Which HTML attribute specifies an alternate text for an image?",
+            options: [
+                "src",
+                "alt",
+                "title",
+                "href"
+            ],
+            answer: 1,
+            explanation: "The alt attribute provides alternative information for an image if it cannot be displayed."
+        });
+        allQuizzes.html.questions.addQuestion({
+            question: "Which HTML element is used to define the structure of an HTML document?",
+            options: [
+                "body",
+                "!DOCTYPE",
+                "html",
+                "structure"
+            ],
+            answer: 2,
+            explanation: "The <html> element is the root element that defines the whole HTML document."
+        });
+
+        allQuizzes.css.questions.addQuestion({
+            question: "What does CSS stand for?",
+            options: [
+                "Computer Style Sheets",
+                "Creative Style Sheets",
+                "Cascading Style Sheets",
+                "Colorful Style Sheets"
+            ],
+            answer: 2,
+            explanation: "CSS stands for Cascading Style Sheets, used for styling web pages."
+        });
+        allQuizzes.css.questions.addQuestion({
+            question: "Which CSS property controls the text size?",
+            options: [
+                "font-style",
+                "text-size",
+                "font-size",
+                "text-style"
+            ],
+            answer: 2,
+            explanation: "The font-size property sets the size of the text."
+        });
+        allQuizzes.css.questions.addQuestion({
+            question: "How do you select an element with id 'header'?",
+            options: [
+                ".header",
+                "#header",
+                "*header",
+                "header"
+            ],
+            answer: 1,
+            explanation: "The # symbol is used to select elements by their id attribute."
+        });
+        allQuizzes.css.questions.addQuestion({
+            question: "Which property is used to change the background color?",
+            options: [
+                "color",
+                "bgcolor",
+                "background-color",
+                "bg-color"
+            ],
+            answer: 2,
+            explanation: "The background-color property sets the background color of an element."
+        });
+        allQuizzes.css.questions.addQuestion({
+            question: "How do you make text bold in CSS?",
+            options: [
+                "font-weight: bold;",
+                "text-style: bold;",
+                "font: bold;",
+                "style: bold;"
+            ],
+            answer: 0,
+            explanation: "The font-weight property with value 'bold' makes text bold."
+        });
+
+        allQuizzes.javascript.questions.addQuestion({
+            question: "Which of the following is NOT a JavaScript data type?",
+            options: [
+                "Number",
+                "String",
+                "Boolean",
+                "Character"
+            ],
+            answer: 3,
+            explanation: "JavaScript doesn't have a Character type - it uses Strings for single characters."
+        });
+        allQuizzes.javascript.questions.addQuestion({
+            question: "What does the '===' operator do in JavaScript?",
+            options: [
+                "Assigns a value",
+                "Compares value and type",
+                "Compares only value",
+                "Checks for inequality"
+            ],
+            answer: 1,
+            explanation: "The '===' operator is the strict equality operator that compares both value and type."
+        });
+        allQuizzes.javascript.questions.addQuestion({
+            question: "Which method adds an element to the end of an array?",
+            options: [
+                "push()",
+                "pop()",
+                "shift()",
+                "unshift()"
+            ],
+            answer: 0,
+            explanation: "The push() method adds one or more elements to the end of an array."
+        });
+        allQuizzes.javascript.questions.addQuestion({
+            question: "What is the purpose of the 'this' keyword in JavaScript?",
+            options: [
+                "Refers to the current function",
+                "Refers to the parent object",
+                "Refers to the global object",
+                "Refers to the current object"
+            ],
+            answer: 3,
+            explanation: "The 'this' keyword refers to the object it belongs to (the execution context)."
+        });
+        allQuizzes.javascript.questions.addQuestion({
+            question: "Which of these is NOT a way to declare a variable in JavaScript?",
+            options: [
+                "var",
+                "let",
+                "const",
+                "def"
+            ],
+            answer: 3,
+            explanation: "'def' is used in Python, not JavaScript. JavaScript uses var, let, and const."
+        });
+
+        allQuizzes.python.questions.addQuestion({
+            question: "Which keyword is used to define a function in Python?",
+            options: [
+                "func",
+                "def",
+                "function",
+                "define"
+            ],
+            answer: 1,
+            explanation: "Python uses the 'def' keyword to define functions."
+        });
+        allQuizzes.python.questions.addQuestion({
+            question: "What is the output of 'print(3 * 'hi')' in Python?",
+            options: [
+                "hihihi",
+                "3hi",
+                "Error",
+                "hi hi hi"
+            ],
+            answer: 0,
+            explanation: "Python can multiply strings, resulting in concatenated repetition."
+        });
+        allQuizzes.python.questions.addQuestion({
+            question: "Which of these is NOT a Python data structure?",
+            options: [
+                "List",
+                "Tuple",
+                "Array",
+                "Dictionary"
+            ],
+            answer: 2,
+            explanation: "Python has lists (not arrays), tuples, dictionaries, and sets as built-in data structures."
+        });
+        allQuizzes.python.questions.addQuestion({
+            question: "How do you start a single-line comment in Python?",
+            options: [
+                "//",
+                "#",
+                "--",
+                "/*"
+            ],
+            answer: 1,
+            explanation: "Python uses the '#' symbol for single-line comments."
+        });
+        allQuizzes.python.questions.addQuestion({
+            question: "Which method removes and returns the last item from a list?",
+            options: [
+                "pop()",
+                "remove()",
+                "delete()",
+                "push()"
+            ],
+            answer: 0,
+            explanation: "The pop() method removes and returns the last item by default."
+        });
+
+        allQuizzes.c.questions.addQuestion({
+            question: "What is the correct way to declare a pointer in C?",
+            options: [
+                "int ptr;",
+                "int *ptr;",
+                "&int ptr;",
+                "pointer int ptr;"
+            ],
+            answer: 1,
+            explanation: "Pointers are declared with an asterisk (*) before the variable name."
+        });
+        allQuizzes.c.questions.addQuestion({
+            question: "Which header file is needed for printf() function?",
+            options: [
+                "<stdlib.h>",
+                "<math.h>",
+                "<stdio.h>",
+                "<string.h>"
+            ],
+            answer: 2,
+            explanation: "The printf() function is declared in the <stdio.h> header file."
+        });
+        allQuizzes.c.questions.addQuestion({
+            question: "What does the 'sizeof' operator return?",
+            options: [
+                "Value of a variable",
+                "Address of a variable",
+                "Size in bytes",
+                "Length of a string"
+            ],
+            answer: 2,
+            explanation: "sizeof returns the size in bytes of its operand."
+        });
+        allQuizzes.c.questions.addQuestion({
+            question: "Which loop is guaranteed to execute at least once?",
+            options: [
+                "for",
+                "while",
+                "do-while",
+                "if-else"
+            ],
+            answer: 2,
+            explanation: "The do-while loop checks its condition after executing the loop body."
+        });
+        allQuizzes.c.questions.addQuestion({
+            question: "What is the correct way to allocate memory dynamically?",
+            options: [
+                "malloc()",
+                "alloc()",
+                "new()",
+                "create()"
+            ],
+            answer: 0,
+            explanation: "malloc() is used for dynamic memory allocation in C."
+        });
+
+        allQuizzes.cpp.questions.addQuestion({
+            question: "Which of these is NOT a pillar of OOP?",
+            options: [
+                "Encapsulation",
+                "Inheritance",
+                "Polymorphism",
+                "Compilation"
+            ],
+            answer: 3,
+            explanation: "The four pillars are Abstraction, Encapsulation, Inheritance, and Polymorphism."
+        });
+        allQuizzes.cpp.questions.addQuestion({
+            question: "What is the correct way to create a class in C++?",
+            options: [
+                "class MyClass {};",
+                "new class MyClass {};",
+                "MyClass class {};",
+                "object MyClass {};"
+            ],
+            answer: 0,
+            explanation: "Classes are declared using the 'class' keyword followed by the class name."
+        });
+        allQuizzes.cpp.questions.addQuestion({
+            question: "Which access specifier makes members accessible only within the class?",
+            options: [
+                "public",
+                "private",
+                "protected",
+                "internal"
+            ],
+            answer: 1,
+            explanation: "private members are only accessible within the class."
+        });
+        allQuizzes.cpp.questions.addQuestion({
+            question: "What does 'cout' stand for in C++?",
+            options: [
+                "Character Output",
+                "Console Output",
+                "Common Output",
+                "Command Output"
+            ],
+            answer: 1,
+            explanation: "cout stands for 'console output' and is used for printing to standard output."
+        });
+        allQuizzes.cpp.questions.addQuestion({
+            question: "Which operator is used for dynamic memory allocation in C++?",
+            options: [
+                "malloc",
+                "alloc",
+                "new",
+                "create"
+            ],
+            answer: 2,
+            explanation: "C++ uses the 'new' operator for dynamic memory allocation."
+        });
+
+        // Quiz State
+        let currentQuiz;
+        let currentQuestionIndex = 0;
+        let userAnswers = [];
+        let quizSubmitted = false;
+
+        // Initialize Quiz
+        function initQuiz() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const quizId = urlParams.get('quiz');
+            
+            if (!quizId || !allQuizzes[quizId]) {
+                window.location.href = 'quizzes.html?error=invalid_quiz';
+                return;
+            }
+            
+            currentQuiz = allQuizzes[quizId];
+            userAnswers = Array(currentQuiz.questions.length()).fill(null);
+            
+            renderQuizLayout();
+            loadQuestion(currentQuestionIndex);
+            updateProgress();
+        }
+
+        function renderQuizLayout() {
+            const quizMain = document.getElementById('quiz-main');
+            const sidebar = document.querySelector('.sidebar');
+            
+            quizMain.innerHTML = `
+                <div class="quiz-header">
+                    <h1 id="quiz-title">${currentQuiz.title}</h1>
+                    <p>${currentQuiz.description}</p>
+                    <div class="quiz-progress">
+                        <div class="progress-bar" id="quiz-progress-bar"></div>
+                    </div>
+                </div>
+                
+                <div id="question-view">
+                    <div class="question-container">
+                        <div class="question-text" id="question-text">Loading question...</div>
+                        <div class="options-container" id="options-container"></div>
+                    </div>
+                    
+                    <div class="quiz-navigation">
+                        <button class="quiz-btn" id="prev-btn" disabled>
+                            <i class="fas fa-arrow-left"></i> Previous
+                        </button>
+                        <button class="quiz-btn" id="next-btn">
+                            Next <i class="fas fa-arrow-right"></i>
+                        </button>
+                        <button class="quiz-btn" id="submit-btn" style="display: none;">
+                            Submit Quiz
+                        </button>
+                    </div>
+                </div>
+                
+                <div id="result-view" style="display: none;">
+                    <div class="quiz-result">
+                        <h2>Quiz Completed!</h2>
+                        <div class="quiz-score" id="quiz-score">0/${currentQuiz.questions.length()}</div>
+                        <p class="result-message" id="result-message">Keep practicing to improve your skills!</p>
+                        <div class="result-actions">
+                            <a href="courses.html" class="result-btn primary">
+                                <i class="fas fa-book-open"></i> Back to Courses
+                            </a>
+                            <a href="quizzes.html" class="result-btn secondary">
+                                <i class="fas fa-redo"></i> Try Another Quiz
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            sidebar.innerHTML = `
+                <h2>Question Palette</h2>
+                <div class="question-palette" id="question-palette"></div>
+                
+                <div class="quiz-instructions">
+                    <h3>Quiz Instructions</h3>
+                    <ul>
+                        <li>Each question carries equal marks</li>
+                        <li>No negative marking</li>
+                        <li>You can navigate between questions</li>
+                        <li>Results will be shown after submission</li>
+                        <li>Perfect scores earn a certificate</li>
+                    </ul>
+                </div>
+            `;
+            
+            document.getElementById('prev-btn').addEventListener('click', () => {
+                if (currentQuestionIndex > 0) {
+                    loadQuestion(currentQuestionIndex - 1);
+                }
+            });
+            
+            document.getElementById('next-btn').addEventListener('click', () => {
+                if (currentQuestionIndex < currentQuiz.questions.length() - 1) {
+                    loadQuestion(currentQuestionIndex + 1);
+                }
+            });
+            
+            document.getElementById('submit-btn').addEventListener('click', submitQuiz);
+            
+            renderQuestionPalette();
+        }
+
+        function loadQuestion(index) {
+            if (index < 0 || index >= currentQuiz.questions.length()) return;
+            
+            currentQuestionIndex = index;
+            const question = currentQuiz.questions.getQuestion(index);
+            
+            document.getElementById('question-text').textContent = `${index + 1}. ${question.question}`;
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+            
+            question.options.forEach((option, i) => {
+                const optionEl = document.createElement('div');
+                optionEl.className = 'option';
+                if (userAnswers[index] === i) {
+                    optionEl.classList.add('selected');
+                }
+                if (quizSubmitted) {
+                    if (i === question.answer) {
+                        optionEl.classList.add('option-correct');
+                    } else if (userAnswers[index] === i && userAnswers[index] !== question.answer) {
+                        optionEl.classList.add('option-incorrect');
+                    }
+                }
+                
+                optionEl.innerHTML = `
+                    <input type="radio" name="option" id="option-${i}" ${userAnswers[index] === i ? 'checked' : ''}>
+                    <label for="option-${i}">${option}</label>
+                `;
+                
+                optionEl.addEventListener('click', () => selectOption(i));
+                optionsContainer.appendChild(optionEl);
+            });
+            
+            document.getElementById('prev-btn').disabled = index === 0;
+            document.getElementById('next-btn').style.display = 
+                index === currentQuiz.questions.length() - 1 ? 'none' : 'block';
+            document.getElementById('submit-btn').style.display = 
+                index === currentQuiz.questions.length() - 1 && !quizSubmitted ? 'block' : 'none';
+            
+            updateQuestionPalette();
+        }
+
+        function selectOption(optionIndex) {
+            if (quizSubmitted) return;
+            
+            userAnswers[currentQuestionIndex] = optionIndex;
+            const options = document.querySelectorAll('.option');
+            
+            options.forEach((option, i) => {
+                option.classList.toggle('selected', i === optionIndex);
+            });
+            
+            updateQuestionPalette();
+            updateProgress();
+        }
+
+        function submitQuiz() {
+            quizSubmitted = true;
+            
+            let score = 0;
+            currentQuiz.questions.toArray().forEach((question, i) => {
+                if (userAnswers[i] === question.answer) {
+                    score++;
+                }
+            });
+            
+            document.getElementById('question-view').style.display = 'none';
+            document.getElementById('result-view').style.display = 'block';
+            
+            document.getElementById('quiz-score').textContent = `${score}/${currentQuiz.questions.length()}`;
+            
+            const percentage = (score / currentQuiz.questions.length()) * 100;
+            let message = "";
+            let showCertificateBtn = false;
+            
+            if (percentage >= 80) {
+                message = "Excellent work! You've mastered this topic!";
+                if (percentage === 100) {
+                    message = "Perfect score! You've aced this quiz!";
+                    showCertificateBtn = true;
+                }
+            } else if (percentage >= 60) {
+                message = "Good job! You have a solid understanding.";
+            } else if (percentage >= 40) {
+                message = "Not bad! Review the course material and try again.";
+            } else {
+                message = "Keep practicing! Review the course and try the quiz again.";
+            }
+            
+            document.getElementById('result-message').textContent = message;
+            
+            // Save quiz attempt
+            const quizId = Object.keys(allQuizzes).find(key => allQuizzes[key] === currentQuiz);
+            const attemptData = {
+                userEmail: currentUser.email,
+                quizId: quizId,
+                score: score,
+                total: currentQuiz.questions.length(),
+                date: new Date().toISOString()
+            };
+            const attempts = JSON.parse(localStorage.getItem(`quizAttempts-${currentUser.email}`) || '[]');
+            attempts.push(attemptData);
+            localStorage.setItem(`quizAttempts-${currentUser.email}`, JSON.stringify(attempts));
+            
+            if (showCertificateBtn) {
+                const resultActions = document.querySelector('.result-actions');
+                const certBtn = document.createElement('button');
+                certBtn.className = 'certificate-btn';
+                certBtn.innerHTML = '<i class="fas fa-certificate"></i> Generate Certificate';
+                certBtn.addEventListener('click', generateCertificate);
+                resultActions.insertBefore(certBtn, resultActions.firstChild);
+            }
+            
+            // Reload current question to show correct/incorrect answers
+            loadQuestion(currentQuestionIndex);
+        }
+
+        function generateCertificate() {
+            const score = currentQuiz.questions.length(); // Perfect score
+            const courseName = currentQuiz.title.replace(" Quiz", "");
+            const quizId = Object.keys(allQuizzes).find(key => allQuizzes[key] === currentQuiz);
+            
+            const certificateData = {
+                studentName: currentUser.name,
+                courseName: courseName,
+                date: new Date().toLocaleDateString(),
+                score: `${score}/${score}`,
+                quizId: quizId
+            };
+            
+            localStorage.setItem('latestCertificate', JSON.stringify(certificateData));
+            window.location.href = 'certificates.html';
+        }
+
+        function renderQuestionPalette() {
+            const palette = document.getElementById('question-palette');
+            palette.innerHTML = '';
+            
+            for (let i = 0; i < currentQuiz.questions.length(); i++) {
+                const questionNumber = document.createElement('div');
+                questionNumber.className = 'question-number';
+                questionNumber.textContent = i + 1;
+                questionNumber.addEventListener('click', () => loadQuestion(i));
+                palette.appendChild(questionNumber);
+            }
+            
+            updateQuestionPalette();
+        }
+
+        function updateQuestionPalette() {
+            const questionNumbers = document.querySelectorAll('.question-number');
+            
+            questionNumbers.forEach((number, i) => {
+                number.classList.toggle('active', i === currentQuestionIndex);
+                number.classList.toggle('answered', userAnswers[i] !== null);
+            });
+        }
+
+        function updateProgress() {
+            const answeredCount = userAnswers.filter(answer => answer !== null).length;
+            const progress = (answeredCount / currentQuiz.questions.length()) * 100;
+            document.getElementById('quiz-progress-bar').style.width = `${progress}%`;
+        }
+
+        document.addEventListener('DOMContentLoaded', initQuiz);
+    </script>
+</body>
+</html>

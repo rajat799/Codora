@@ -3,88 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Codora - Sign Up</title>
-    <link rel="stylesheet" href="css/authStyle.css">
+    <title>Sign Up | Codora</title>
+    <link rel="stylesheet" href="CSS/authStyle.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <div class="auth-container">
         <div class="auth-header">
-            <h2>Create Account</h2>
-            <p>Start your coding journey with us</p>
+            <h2>Join Codora</h2>
+            <p>Create your account to start learning</p>
         </div>
-
-        <form class="auth-form">
+        <form class="auth-form" id="signup-form">
             <div class="form-group">
                 <label for="name">Full Name</label>
-                <input type="text" id="name" placeholder="Enter your full name" required>
+                <input type="text" id="name" name="name" required>
             </div>
-
             <div class="form-group">
                 <label for="email">Email</label>
-                <input type="email" id="email" placeholder="Enter your email" required>
+                <input type="email" id="email" name="email" required>
             </div>
-
             <div class="form-group">
                 <label for="password">Password</label>
-                <input type="password" id="password" placeholder="Create a password" required>
+                <input type="password" id="password" name="password" required>
             </div>
-
-            <div class="form-group">
-                <label for="confirm-password">Confirm Password</label>
-                <input type="password" id="confirm-password" placeholder="Confirm your password" required>
-            </div>
-
             <button type="submit" class="auth-btn">Sign Up</button>
         </form>
-
         <div class="auth-footer">
-            <p>Already have an account? <a href="login.html">Log in</a></p>
-        </div>
-
-        <div class="social-auth">
-            <p>or sign up with</p>
-            <div class="social-icons">
-                <a href="#" class="social-icon"><i class="fab fa-google"></i></a>
-                <a href="#" class="social-icon"><i class="fab fa-github"></i></a>
-                <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
-            </div>
+            <p>Already have an account? <a href="login.html">Log In</a></p>
         </div>
     </div>
-
     <script>
-        document.getElementById('signupForm').addEventListener('submit', async (e) => {
+        document.getElementById('signup-form').addEventListener('submit', function(e) {
             e.preventDefault();
             
-            const fullName = document.getElementById('fullName').value;
+            const name = document.getElementById('name').value;
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
-            const confirmPassword = document.getElementById('confirmPassword').value;
-        
-            try {
-                const response = await fetch('http://localhost:5000/api/signup', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ fullName, email, password, confirmPassword })
-                });
-        
-                const data = await response.json();
-                
-                if (response.ok) {
-                    // Store token and redirect
-                    localStorage.setItem('token', data.token);
-                    localStorage.setItem('userId', data.userId);
-                    window.location.href = 'dashboard.html';
-                } else {
-                    alert(data.message || 'Signup failed');
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                alert('An error occurred. Please try again.');
+            
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            
+            if (users.find(u => u.email === email)) {
+                alert('Email already registered');
+                return;
             }
+            
+            const newUser = { name, email, password };
+            users.push(newUser);
+            localStorage.setItem('users', JSON.stringify(users));
+            localStorage.setItem('currentUser', JSON.stringify(newUser));
+            
+            // Initialize empty course progress for new user
+            localStorage.setItem(`courseProgress-${email}`, JSON.stringify({}));
+            
+            window.location.href = 'index.html';
         });
-        </script>
+    </script>
 </body>
 </html>
