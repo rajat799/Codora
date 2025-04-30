@@ -1077,7 +1077,7 @@
             };
             
             localStorage.setItem('latestCertificate', JSON.stringify(certificateData));
-            window.location.href = 'certificates.html';
+            window.location.href = 'certificates.html?generate=true'; // Add query parameter to indicate generation
         }
 
         function renderQuestionPalette() {

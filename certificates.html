@@ -583,20 +583,39 @@
                 this.userEmail = userEmail;
                 this.head = null;
             }
-
+        
             addCertificate(data) {
-                const newNode = new CertificateNode(data);
-                if (!this.head) {
-                    this.head = newNode;
+                const existingCert = this.findCertificateByQuizId(data.quizId);
+                if (existingCert) {
+                    // Update existing certificate with new date and certId
+                    existingCert.data.date = data.date;
+                    existingCert.data.certId = data.certId;
                 } else {
-                    let current = this.head;
-                    while (current.next) {
-                        current = current.next;
+                    // Add new certificate
+                    const newNode = new CertificateNode(data);
+                    if (!this.head) {
+                        this.head = newNode;
+                    } else {
+                        let current = this.head;
+                        while (current.next) {
+                            current = current.next;
+                        }
+                        current.next = newNode;
                     }
-                    current.next = newNode;
                 }
             }
-
+        
+            findCertificateByQuizId(quizId) {
+                let current = this.head;
+                while (current) {
+                    if (current.data.quizId === quizId) {
+                        return current;
+                    }
+                    current = current.next;
+                }
+                return null;
+            }
+        
             toArray() {
                 const certificates = [];
                 let current = this.head;
@@ -606,7 +625,7 @@
                 }
                 return certificates;
             }
-
+        
             getCertificate(index) {
                 let current = this.head;
                 let i = 0;
@@ -616,14 +635,19 @@
                 }
                 return current ? current.data : null;
             }
-
+        
             saveToStorage() {
                 localStorage.setItem(`certificates-${this.userEmail}`, JSON.stringify(this.toArray()));
             }
-
+        
             loadFromStorage() {
                 const data = JSON.parse(localStorage.getItem(`certificates-${this.userEmail}`) || '[]');
-                data.forEach(cert => this.addCertificate(cert));
+                data.forEach(cert => {
+                    // Avoid duplicates when loading from storage
+                    if (!this.findCertificateByQuizId(cert.quizId)) {
+                        this.addCertificate(cert);
+                    }
+                });
             }
         }
 
@@ -642,28 +666,25 @@
             return result;
         }
 
-        // Initialize page
         document.addEventListener('DOMContentLoaded', function() {
             const certificatesGrid = document.getElementById('certificates-grid');
             const certificateView = document.getElementById('certificate-view');
             const certificateList = new CertificateList(currentUser.email);
             certificateList.loadFromStorage();
-
-            // Check for single certificate view (from quizzes_content.html or view button)
+        
             const certificateData = JSON.parse(localStorage.getItem('latestCertificate'));
             const urlParams = new URLSearchParams(window.location.search);
             const viewIndex = urlParams.get('view');
-
-            if (certificateData && certificateData.studentName === currentUser.name) {
-                // Add new certificate from quizzes_content.html
+            const generateNew = urlParams.get('generate') === 'true';
+        
+            if (certificateData && certificateData.studentName === currentUser.name && generateNew) {
+                // Add or update certificate
                 const certId = generateCertId();
-                certificateList.addCertificate({
-                    ...certificateData,
-                    certId: certId
-                });
+                const certData = { ...certificateData, certId };
+                certificateList.addCertificate(certData);
                 certificateList.saveToStorage();
                 localStorage.removeItem('latestCertificate'); // Clear after saving
-                showCertificateView({ ...certificateData, certId });
+                showCertificateView(certData);
             } else if (viewIndex !== null && certificateList.getCertificate(viewIndex)) {
                 // View existing certificate
                 showCertificateView(certificateList.getCertificate(viewIndex));
@@ -671,7 +692,7 @@
                 // Show certificate grid
                 renderCertificateGrid(certificateList);
             }
-
+        
             // Back to grid button
             document.getElementById('back-to-grid').addEventListener('click', () => {
                 certificateView.style.display = 'none';
