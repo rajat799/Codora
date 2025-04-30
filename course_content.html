@@ -166,7 +166,11 @@
     <main>
         <div class="course-container">
             <div class="main-content">
-                <div class="video-container" id="video-player"></div>
+                <div class="video-container" id="video-player">
+                    <div id="video-placeholder" style="display: flex; justify-content: center; align-items: center; height: 100%; background: #000; color: #aaa;">
+                        <p>Loading video...</p>
+                    </div>
+                </div>
                 
                 <h1 id="course-title">Course Title</h1>
                 
@@ -233,6 +237,15 @@
         if (!currentUser) {
             window.location.href = 'login.html';
         } else {
+            // Check if this is the first login for this user
+            const userFirstLogin = localStorage.getItem(`firstLogin-${currentUser.email}`);
+            
+            if (!userFirstLogin) {
+                // This is the first login - reset all progress for this user
+                resetAllProgressForUser(currentUser.email);
+                localStorage.setItem(`firstLogin-${currentUser.email}`, 'true');
+            }
+            
             authButtons.innerHTML = `
                 <span style="color: white; margin-right: 10px;">Hello, ${currentUser.name}</span>
                 <button onclick="logout()" class="auth-btn logout-btn">Log Out</button>
@@ -244,9 +257,21 @@
             window.location.href = 'login.html';
         }
 
-        // Load YouTube API
+        // Function to reset progress for a specific user
+        function resetAllProgressForUser(userEmail) {
+            const keys = Object.keys(localStorage);
+            const progressKeys = keys.filter(key => 
+                key.startsWith('progress-') || 
+                key.startsWith('notes-')
+            );
+            progressKeys.forEach(key => localStorage.removeItem(key));
+            localStorage.removeItem(`userProgress-${userEmail}`);
+        }
+
+        // Load YouTube API asynchronously
         const tag = document.createElement('script');
         tag.src = "https://www.youtube.com/iframe_api";
+        tag.async = true; // Load script asynchronously
         const firstScriptTag = document.getElementsByTagName('script')[0];
         firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
         
@@ -254,11 +279,12 @@
         let currentCourse;
         let currentLessonId;
         let completedLessons = [];
+        let videoLoaded = false; // Track if video has been loaded
 
         // Linked List Implementation for Lessons
         class LessonNode {
             constructor(data) {
-                this.data = data; // { id, title, youtubeId, duration, notes, resources }
+                this.data = data;
                 this.next = null;
             }
         }
@@ -303,7 +329,7 @@
             }
         }
 
-        // Complete Course Data
+        // Sample Course Data (unchanged for brevity)
         const sampleCourses = {
             html: {
                 id: 'html',
@@ -375,7 +401,7 @@
             }
         };
 
-        // Populate lessons as linked lists
+        // Populate lessons (unchanged for brevity)
         sampleCourses.html.lessons.addLesson({
             id: 'html-intro',
             title: '1. Introduction to HTML',
@@ -707,22 +733,37 @@
                 }
             });
             
-            if (player) {
-                player.loadVideoById(lesson.youtubeId);
-            } else {
-                player = new YT.Player('video-player', {
+            // Lazy load the video only when needed
+            if (!videoLoaded) {
+                const videoPlaceholder = document.getElementById('video-player');
+                videoPlaceholder.innerHTML = ''; // Clear placeholder
+                const playerDiv = document.createElement('div');
+                playerDiv.id = 'yt-player';
+                videoPlaceholder.appendChild(playerDiv);
+
+                player = new YT.Player('yt-player', {
                     height: '100%',
                     width: '100%',
                     videoId: lesson.youtubeId,
                     playerVars: {
-                        'autoplay': 1,
+                        'autoplay': 0, // Disable autoplay to reduce initial load
                         'controls': 1,
                         'modestbranding': 1,
-                        'rel': 0
+                        'rel': 0,
+                        'vq': 'medium', // Default to medium quality (480p)
+                        'enablejsapi': 1 // Enable API for better control
                     },
                     events: {
-                        'onStateChange': onPlayerStateChange
+                        'onReady': onPlayerReady,
+                        'onStateChange': onPlayerStateChange,
+                        'onError': onPlayerError
                     }
+                });
+                videoLoaded = true;
+            } else {
+                player.loadVideoById({
+                    videoId: lesson.youtubeId,
+                    suggestedQuality: 'medium' // Suggest medium quality
                 });
             }
             
@@ -758,8 +799,19 @@
             }
         }
         
+        function onPlayerReady(event) {
+            // Ensure video starts at medium quality
+            event.target.setPlaybackQuality('medium');
+        }
+        
         function onPlayerStateChange(event) {
-            // Add progress tracking here if needed
+            // Add progress tracking if needed
+        }
+        
+        function onPlayerError(event) {
+            console.error('YouTube Player Error:', event.data);
+            const videoPlaceholder = document.getElementById('video-player');
+            videoPlaceholder.innerHTML = '<p style="color: #ff4444; text-align: center;">Failed to load video. Please try again later or check your connection.</p>';
         }
         
         function loadProgress() {
@@ -841,12 +893,13 @@
             localStorage.setItem(`notes-${currentCourse.id}-${currentLessonId}`, notes);
             alert('Notes saved!');
         });
-        
+            
         window.onYouTubeIframeAPIReady = loadCourse;
 
+        // Global reset function (for testing)
         function resetAllProgress() {
             Object.keys(localStorage).forEach(key => {
-                if (key.startsWith('progress-') || key.startsWith('notes-')) {
+                if (key.startsWith('progress-') || key.startsWith('notes-') || key.startsWith('firstLogin-')) {
                     localStorage.removeItem(key);
                 }
             });
