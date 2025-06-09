@@ -44,8 +44,8 @@
             <h1><span class="typing-text"></span></h1>
             <p>Learn. Practice. Build. Get Rewarded.</p>
             <div class="hero-search">
-              <input type="text" placeholder="Search for courses, topics, or tutorials...">
-              <button><i class="fas fa-search"></i></button>
+              <input type="text" id="search-input" placeholder="Search for courses, topics, or tutorials...">
+              <button id="search-btn"><i class="fas fa-search"></i></button>
             </div>
           </div>
         </section>
@@ -316,6 +316,23 @@
             localStorage.removeItem('currentUser');
             window.location.href = 'login.html';
         }
+
+        // Search functionality
+        const searchInput = document.getElementById('search-input');
+        const courseCards = document.querySelectorAll('.course-card');
+
+        searchInput.addEventListener('input', () => {
+            const query = searchInput.value.toLowerCase().trim();
+
+            courseCards.forEach(card => {
+                const courseTitle = card.querySelector('.course-title').textContent.toLowerCase();
+                if (courseTitle.includes(query)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
     </script>
 </body>
 </html>
