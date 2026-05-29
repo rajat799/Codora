@@ -1,16 +1,45 @@
-# React + Vite
+# 🚀 Codora Learning Platform
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Codora is a modern, full-stack interactive e-learning web application built to make coding accessible, engaging, and rewarding. Originally conceived as a static site, Codora has been fully re-architected into a blazing-fast **React Single Page Application (SPA)** powered by **Firebase** backend services.
 
-Currently, two official plugins are available:
+## ✨ Platform Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+* **Interactive Course Player**: Engage with full video lessons embedded directly within the platform. The dynamic sidebar tracks your curriculum progress in real-time.
+* **Smart Quiz Engine**: Test your knowledge after completing a course! The quiz engine provides immediate feedback, tracks your score, and saves your results directly to the cloud database.
+* **Automated Certificate Generation**: Score 100% on a course quiz and automatically unlock a personalized, printable Certificate of Achievement—dynamically generated with your name, date, and a unique verification ID.
+* **User Dashboards**: A personalized profile page that displays all of your enrolled courses, lets you resume right where you left off, and tracks your earned certificates.
+* **Custom Avatars**: Featuring a built-in integration with the DiceBear API to automatically generate unique, robotic profile avatars for free.
+* **Secure Authentication**: Robust user sign-up, login, and session tracking powered by Firebase Auth.
 
-## React Compiler
+## 🛠️ Technology Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+* **Frontend**: React (via Vite), React Router DOM (v6)
+* **Styling**: Vanilla CSS3 with modern flexbox/grid layouts and dynamic CSS variables
+* **Backend Database**: Firebase Firestore (NoSQL)
+* **Authentication**: Firebase Authentication
+* **Avatars**: DiceBear API Integration
 
-## Expanding the ESLint configuration
+## 🚀 Getting Started
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+If you want to run this project locally on your own machine:
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/rajat799/Codora.git
+   cd Codora
+   ```
+
+2. **Install Dependencies:**
+   Make sure you have Node.js installed, then run:
+   ```bash
+   npm install
+   ```
+
+3. **Run the Development Server:**
+   ```bash
+   npm run dev
+   ```
+   *The app will automatically launch in your browser (usually on `http://localhost:5173`).*
+
+---
+*Built with ❤️ for passionate learners and future developers.*
