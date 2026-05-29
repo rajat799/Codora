@@ -1,0 +1,191 @@
+.profile-page {
+  min-height: calc(100vh - 5rem);
+  padding: 40px 20px;
+  color: white;
+}
+
+.profile-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  background-color: #1e1e1e;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+}
+
+.profile-header {
+  background: linear-gradient(to right, #240b36, #0b0220);
+  padding: 20px 30px;
+  border-bottom: 1px solid rgba(255, 200, 0, 0.2);
+}
+
+.profile-header h2 {
+  color: #ffd700;
+  margin: 0;
+}
+
+.profile-content {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.profile-sidebar {
+  flex: 1;
+  min-width: 250px;
+  padding: 30px;
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  text-align: center;
+}
+
+.avatar-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.profile-avatar {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #ffd700;
+  margin-bottom: 15px;
+  box-shadow: 0 0 15px rgba(255, 200, 0, 0.3);
+}
+
+.user-email {
+  color: #aaa;
+  margin-bottom: 20px;
+  font-size: 0.9rem;
+}
+
+.upload-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.upload-section input[type="file"] {
+  display: none;
+}
+
+.file-label {
+  background-color: transparent;
+  border: 1px solid #00bbff;
+  color: #00bbff;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-size: 0.9rem;
+}
+
+.file-label:hover {
+  background-color: rgba(0, 187, 255, 0.1);
+}
+
+.upload-btn {
+  background-color: #ffd700;
+  color: black;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.upload-btn:hover:not(:disabled) {
+  background-color: #ffcc00;
+  transform: translateY(-2px);
+}
+
+.upload-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.profile-main {
+  flex: 3;
+  min-width: 300px;
+  padding: 30px;
+}
+
+.profile-main h3 {
+  color: #00bbff;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+}
+
+.no-courses {
+  color: #aaa;
+  font-style: italic;
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.02);
+  border-radius: 8px;
+}
+
+.enrolled-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.enrolled-card {
+  background-color: #2a2a2a;
+  border-radius: 8px;
+  padding: 20px;
+  border-left: 4px solid #ffd700;
+  transition: transform 0.3s;
+}
+
+.enrolled-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.enrolled-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 15px;
+}
+
+.enrolled-card-header h4 {
+  margin: 0;
+  color: white;
+}
+
+.enrolled-date {
+  font-size: 0.8rem;
+  color: #aaa;
+}
+
+.enrolled-card-body p {
+  font-size: 0.9rem;
+  color: #ddd;
+  margin-bottom: 15px;
+}
+
+.continue-btn {
+  background: transparent;
+  color: #00bbff;
+  border: 1px solid #00bbff;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.3s;
+}
+
+.continue-btn:hover {
+  background: rgba(0, 187, 255, 0.1);
+}
+
+@media (max-width: 768px) {
+  .profile-sidebar {
+    border-right: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+}
